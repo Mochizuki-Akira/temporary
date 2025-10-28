@@ -129,26 +129,44 @@
 
       // === 使用 pdf.js 渲染每一页 ===
       pdfjsLib.getDocument(path).promise.then(pdf => {
-        loadText.textContent = `全 ${pdf.numPages} ページを読み込み中...`;
-        const renderNext = pageNum => {
-          pdf.getPage(pageNum).then(page => {
-            const viewport = page.getViewport({ scale: 1.3 });
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            container.appendChild(canvas);
-            page.render({ canvasContext: context, viewport }).promise.then(() => {
-              if (pageNum < pdf.numPages) {
-                renderNext(pageNum + 1);
-              } else {
-                loader.style.display = 'none';
-              }
-            });
-          });
-        };
-        renderNext(1);
-      }).catch(err => {
+  let total = pdf.numPages;
+  let loaded = 0;
+
+  loadText.textContent = `全 ${total} ページを読み込み中...`;
+
+  const renderNext = pageNum => {
+    pdf.getPage(pageNum).then(page => {
+      // 自动根据屏幕分辨率调整清晰度
+      const scale = Math.min(2.5, window.devicePixelRatio * 1.8);
+      const viewport = page.getViewport({ scale });
+
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      container.appendChild(canvas);
+
+      // 渲染该页
+      page.render({ canvasContext: context, viewport }).promise.then(() => {
+        loaded++;
+        loadText.textContent = `ページ ${loaded}/${total} を描画中...`;
+
+        // 继续下一页
+        if (pageNum < total) {
+          renderNext(pageNum + 1);
+        } else {
+          loadText.textContent = `全 ${total} ページの読み込みが完了しました ✅`;
+          setTimeout(() => loader.style.display = 'none', 800);
+        }
+      });
+    });
+  };
+
+  renderNext(1);
+}).catch(err => {
+  loadText.textContent = '⚠️ PDF読み込みに失敗しました。';
+  console.error(err);
+});.catch(err => {
         loadText.textContent = '⚠️ PDF読み込みに失敗しました。';
         console.error(err);
       });
