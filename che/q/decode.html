@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>確認コード解読</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input { width: 320px; font-size: 16px; padding: 6px; }
+    button { padding: 6px 12px; margin-left: 10px; }
+    .result { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>確認コード解読ツール</h1>
+  <p>コードを入力してください：</p>
+  <input type="text" id="codeInput" placeholder="例：29234723947">
+  <button onclick="decode()">解読</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    function decode() {
+      const decimal = document.getElementById('codeInput').value.trim();
+      const output = document.getElementById('output');
+      if (!/^[0-9]+$/.test(decimal)) {
+        output.textContent = '⚠️ 数字だけを入力してください。';
+        return;
+      }
+
+      let bin = BigInt(decimal).toString(2);
+      if (bin[0] !== '1') {
+        output.textContent = '⚠️ 無効なコード（先頭が1ではありません）';
+        return;
+      }
+
+      const cleanBin = bin.slice(1); // 最初の1を削除（位置合わせ）
+      let total = cleanBin.length;
+      let wrong = 0;
+      let result = `合計 ${total} 問のうち、間違えた問題は：\n\n`;
+
+      for (let i = 0; i < cleanBin.length; i++) {
+        if (cleanBin[i] === '0') {
+          wrong++;
+          result += `問${i + 1}：✘\n`;
+        }
+      }
+
+      const correct = total - wrong;
+      const rate = ((correct / total) * 100).toFixed(1);
+
+      result += `\n正答率：${rate}%（${correct} / ${total}）`;
+
+      output.textContent = result;
+    }
+  </script>
+</body>
+</html>

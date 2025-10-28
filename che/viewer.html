@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>講義ファイル閲覧｜学習小屋</title>
+  <link rel="stylesheet" href="../common/style.css" />
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      background: #111;
+      color: #eee;
+      overflow-y: auto;
+      text-align: center;
+      font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+    }
+
+    /* 顶部返回按钮 */
+    .overlay {
+      position: fixed;
+      top: 14px; left: 14px;
+      z-index: 50;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #fff;
+      border-radius: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: rgba(255,255,255,.2);
+    }
+
+    /* 加载状态 */
+    #loader {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 14px;
+      background: linear-gradient(135deg, rgba(0,0,0,.6), rgba(0,0,0,.4));
+      z-index: 30;
+      color: #fff;
+      text-align: center;
+    }
+    .spin {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 4px solid rgba(255,255,255,.25);
+      border-top-color: #4a90e2;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 页面画布 */
+    #pdf-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 60px;
+      gap: 12px;
+    }
+    canvas {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      max-width: 90vw;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 返回按钮 -->
+  <div class="overlay"><a id="backBtn" class="btn">← 一覧に戻る</a></div>
+
+  <!-- 加载提示 -->
+  <div id="loader">
+    <div class="spin"></div>
+    <div id="loadText">📘 PDFを読み込んでいます...</div>
+  </div>
+
+  <!-- PDF 渲染容器 -->
+  <div id="pdf-container"></div>
+
+  <!-- pdf.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+
+  <script>
+    // === 文件映射表 ===
+    const FILES = {
+      '2510_1': 'assets/lectures/2510/chem_1.pdf',
+      '2510_2': 'assets/lectures/2510/chem_2.pdf',
+      '2510_2b': 'assets/lectures/2510/chem_2b.pdf',
+      '2510_3': 'assets/lectures/2510/chem_3.pdf',
+      '2510_hw1': 'assets/lectures/2510/hw_1.pdf',
+      '2510_hw2a': 'assets/lectures/2510/hw_2a.pdf',
+      '2510_hw2b': 'assets/lectures/2510/hw_2b.pdf',
+      '2510_hw3': 'assets/lectures/2510/hw_3.pdf'
+    };
+
+    // === 获取参数 ===
+    const qs = new URLSearchParams(location.search);
+    const id = qs.get('id') || '';
+    const path = FILES[id];
+    const loader = document.getElementById('loader');
+    const loadText = document.getElementById('loadText');
+    const container = document.getElementById('pdf-container');
+    const backBtn = document.getElementById('backBtn');
+
+    // 返回目标自动识别
+    let back = './lectures.html';
+    const ref = document.referrer || '';
+    if (ref.includes('list-2507.html')) back = './list-2507.html';
+    else if (ref.includes('list-2510.html')) back = './list-2510.html';
+    else if (/^2507_/.test(id)) back = './list-2507.html';
+    else if (/^2510_/.test(id)) back = './list-2510.html';
+    backBtn.href = back;
+
+    if (!path) {
+      loadText.textContent = '❌ 対象のPDFが見つかりません。';
+    } else {
+      document.title = `講義ファイル (${id})｜学習小屋`;
+
+      // === 使用 pdf.js 渲染每一页 ===
+      pdfjsLib.getDocument(path).promise.then(pdf => {
+        loadText.textContent = `全 ${pdf.numPages} ページを読み込み中...`;
+        const renderNext = pageNum => {
+          pdf.getPage(pageNum).then(page => {
+            const viewport = page.getViewport({ scale: 1.3 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            container.appendChild(canvas);
+            page.render({ canvasContext: context, viewport }).promise.then(() => {
+              if (pageNum < pdf.numPages) {
+                renderNext(pageNum + 1);
+              } else {
+                loader.style.display = 'none';
+              }
+            });
+          });
+        };
+        renderNext(1);
+      }).catch(err => {
+        loadText.textContent = '⚠️ PDF読み込みに失敗しました。';
+        console.error(err);
+      });
+    }
+  </script>
+</body>
+</html>

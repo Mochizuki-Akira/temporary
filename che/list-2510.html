@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2510基础班 講義リスト｜学習小屋</title>
+  <link rel="stylesheet" href="../common/style.css">
+
+  <style>
+    /* ====== 折叠组件样式：summary 看起来像按钮 ====== */
+    details.fold { border: none; padding: 0; background: transparent; }
+    details.fold + details.fold { margin-top: var(--space-4); }
+
+    details.fold > summary {
+      list-style: none;
+      display: block;
+      cursor: pointer;
+      padding: 14px 16px;
+      border: 2px solid var(--color-primary);
+      border-radius: 12px;
+      color: var(--color-primary);
+      font-weight: 700;
+      font-size: 1.05rem;
+      background: #fff;
+      transition: background .2s ease, box-shadow .2s ease, transform .05s ease;
+    }
+    details.fold > summary:hover {
+      background-color: rgba(74,144,226,0.08);
+      box-shadow: 0 4px 10px rgba(74,144,226,0.25);
+    }
+    details.fold > summary:active { transform: translateY(1px); }
+    details.fold > summary::-webkit-details-marker { display: none; }
+    details.fold[open] > summary {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .fold-body {
+      border: 2px solid var(--color-primary);
+      border-top: none;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      padding: 14px 16px 16px 16px;
+      background: #fff;
+    }
+    details.fold:not([open]) > .fold-body { display: none; }
+
+    .chev { display:inline-block; margin-right: 6px; transition: transform .2s ease; }
+    details.fold[open] .chev { transform: rotate(90deg); }
+
+    .btn-list { display:flex; flex-direction:column; gap:12px; }
+    .btn-outline.btn--lg { display:block; text-align:center; width:100%; }
+
+    /* 二层折叠 */
+    details.fold.sub > summary { font-size: 1rem; padding: 10px 14px; }
+    details.fold.sub .fold-body { padding: 10px 14px 14px; }
+
+    /* 课程表 */
+    .syllabus { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+    .syllabus th, .syllabus td { border: 1px solid var(--color-border); padding: 10px 12px; text-align: left; background:#fff; }
+    .syllabus thead th { background: #e6f0ff; color:#2e69a0; font-weight:700; }
+    .syllabus .date { white-space: nowrap; }
+    @media (max-width: 640px) {
+      .syllabus { font-size: 0.85rem; }
+      .syllabus .hide-sm { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <section class="card" style="max-width: var(--max-w-content); text-align:left;">
+      <h2 class="text-center">2510基础班 クラス講義ファイル</h2>
+      <p class="text-muted text-center">以下の資料はクラス専用です。リンクをクリックするとページ内で表示されます（モバイルは直開）。</p>
+
+      <!-- 一、講義ファイル -->
+      <details class="fold" open>
+        <summary><span class="chev">▶</span> 一、講義ファイル</summary>
+        <div class="fold-body">
+          <div class="btn-list">
+            <a href="viewer.html?id=2510_1" class="btn-outline btn--lg">第1回：原子構造と周期表</a>
+            <details class="fold sub">
+              <summary><span class="chev">▶</span> 第2回：化学結合（2ファイル）</summary>
+              <div class="fold-body">
+                <div class="btn-list">
+                  <a href="viewer.html?id=2510_2" class="btn-outline">第2回(1)：化学結合</a>
+                  <a href="viewer.html?id=2510_2b" class="btn-outline">第2回(2)：結晶格子</a>
+                </div>
+              </div>
+            </details>
+            <a href="viewer.html?id=2510_3" class="btn-outline btn--lg">第3回：物質量・化学反応式</a>
+            <a href="viewer.html?id=2510_4" class="btn-outline btn--lg">第4回：錯題講解・復習</a>
+            <a href="viewer.html?id=2510_5" class="btn-outline btn--lg">第5回：気体の状態・理想気体</a>
+            <a href="viewer.html?id=2510_6" class="btn-outline btn--lg">第6回：溶液・濃度・膠体</a>
+            <a href="viewer.html?id=2510_7" class="btn-outline btn--lg">第7回：演習・復習</a>
+            <a href="viewer.html?id=2510_8" class="btn-outline btn--lg">第8回：熱化学</a>
+            <a href="viewer.html?id=2510_9" class="btn-outline btn--lg">第9回：反応速度・平衡・酸塩基</a>
+            <a href="viewer.html?id=2510_10" class="btn-outline btn--lg">第10回：酸・塩基、pH、滴定</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 二、宿題ファイル -->
+      <details class="fold">
+        <summary><span class="chev">▶</span> 二、宿題ファイル</summary>
+        <div class="fold-body">
+          <div class="btn-list">
+            <a href="viewer.html?id=2510_hw1" class="btn-outline">第1回 宿題</a>
+            <details class="fold sub">
+              <summary><span class="chev">▶</span> 第2回 宿題（2ファイル）</summary>
+              <div class="fold-body">
+                <div class="btn-list">
+                  <a href="viewer.html?id=2510_hw2a" class="btn-outline">第2回 宿題 A</a>
+                  <a href="viewer.html?id=2510_hw2b" class="btn-outline">第2回 宿題 B</a>
+                </div>
+              </div>
+            </details>
+            <a href="viewer.html?id=2510_hw3" class="btn-outline">第3回 宿題</a>
+            <a href="viewer.html?id=2510_hw4" class="btn-outline">第4回 宿題</a>
+            <a href="viewer.html?id=2510_hw5" class="btn-outline">第5回 宿題</a>
+            <a href="viewer.html?id=2510_hw6" class="btn-outline">第6回 宿題</a>
+            <a href="viewer.html?id=2510_hw7" class="btn-outline">第7回 宿題</a>
+            <a href="viewer.html?id=2510_hw8" class="btn-outline">第8回 宿題</a>
+            <a href="viewer.html?id=2510_hw9" class="btn-outline">第9回 宿題</a>
+            <a href="viewer.html?id=2510_hw10" class="btn-outline">第10回 宿題</a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 三、コース概要 -->
+      <details class="fold">
+        <summary><span class="chev">▶</span> 三、コース概要（時間割・内容）</summary>
+        <div class="fold-body">
+          <table class="syllabus">
+            <thead>
+              <tr>
+                <th class="date">日期</th>
+                <th class="hide-sm">回数</th>
+                <th class="hide-sm">上課時間</th>
+                <th>課程內容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="date">2025.10.15</td><td class="hide-sm">第1回</td><td class="hide-sm">14:30〜17:30</td><td>原子構造、電子配置、元素の周期律</td></tr>
+              <tr><td class="date">2025.10.23</td><td class="hide-sm">第2回</td><td class="hide-sm">14:30〜17:30</td><td>化学結合、結晶格子、共有結合</td></tr>
+              <tr><td class="date">2025.10.30</td><td class="hide-sm">第3回</td><td class="hide-sm">14:30〜17:30</td><td>物質量、式量、化学反応式、配平</td></tr>
+              <tr><td class="date">2025.11.13</td><td class="hide-sm">第4回</td><td class="hide-sm">14:30〜17:30</td><td>錯題講解、演習</td></tr>
+              <tr><td class="date">2025.11.20</td><td class="hide-sm">第5回</td><td class="hide-sm">14:30〜17:30</td><td>気体の状態、理想気体、混合気体</td></tr>
+              <tr><td class="date">2025.11.27</td><td class="hide-sm">第6回</td><td class="hide-sm">14:30〜17:30</td><td>溶解度、溶液濃度、膠体</td></tr>
+              <tr><td class="date">2025.12.04</td><td class="hide-sm">第7回</td><td class="hide-sm">14:30〜17:30</td><td>復習、演習</td></tr>
+              <tr><td class="date">2025.12.11</td><td class="hide-sm">第8回</td><td class="hide-sm">14:30〜17:30</td><td>熱化学</td></tr>
+              <tr><td class="date">2025.12.18</td><td class="hide-sm">第9回</td><td class="hide-sm">14:30〜17:30</td><td>反応速度、平衡、勒沙特列原理</td></tr>
+              <tr><td class="date">2025.12.25</td><td class="hide-sm">第10回</td><td class="hide-sm">14:30〜17:30</td><td>酸・塩基、pH、滴定</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="notice" style="margin-top:24px;">
+        ご不明点は Wechat: oushidou040129 まで。
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    (async () => {
+      const hdr = await fetch('../common/header.html').then(r => r.text()).catch(()=> '');
+      const ftr = await fetch('../common/footer.html').then(r => r.text()).catch(()=> '');
+      document.getElementById('site-header').innerHTML = hdr;
+      document.getElementById('site-footer').innerHTML = ftr;
+    })();
+  </script>
+</body>
+</html>

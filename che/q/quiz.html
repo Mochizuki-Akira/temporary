@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>問題確認コード作成ページ</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+    h1, h2 { color: #003366; }
+    .section { background: #fff; margin: 20px 0; padding: 15px; border-radius: 8px; box-shadow: 0 0 5px #ccc; }
+    .question { margin: 8px 0; }
+    .options label { margin-right: 10px; }
+    .result { margin-left: 10px; font-weight: bold; display: inline-block; }
+    button { padding: 8px 16px; margin-top: 20px; font-size: 16px; cursor:pointer; }
+    #codeArea { margin-top: 20px; font-size: 18px; }
+    #qrcode { margin-top: 15px; }
+  </style>
+  <!-- 引入轻量级二维码库 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script>
+    function getQueryParam(name) {
+      const url = new URL(location.href);
+      return url.searchParams.get(name);
+    }
+
+    async function initQuiz() {
+      const chapter = getQueryParam('chapter') || 'ch1';
+      const script = document.createElement('script');
+      script.src = `data-${chapter}.js`;
+      document.head.appendChild(script);
+      script.onload = () => renderQuiz(window.chapterData);
+    }
+
+    function renderQuiz(data) {
+      document.title = data.title;
+      document.body.insertAdjacentHTML('afterbegin', `<h1>${data.title}</h1>`);
+      const form = document.getElementById('quizForm');
+      const answers = {};
+
+      data.sections.forEach(section => {
+        const sec = document.createElement('div');
+        sec.className = 'section';
+        sec.innerHTML = `<h2>${section.subtitle}</h2>`;
+        section.questions.forEach((q, idx) => {
+          answers[q.name] = q.answer;
+          const qdiv = document.createElement('div');
+          qdiv.className = 'question';
+          qdiv.innerHTML =
+            `${q.label}：` +
+            [...Array(6)].map((_, j) =>
+              `<label><input type="radio" name="${q.name}" value="${j + 1}">${j + 1}</label>`
+            ).join(' ') +
+            ` <span class="result" id="r-${q.name}"></span>`;
+          sec.appendChild(qdiv);
+        });
+        form.appendChild(sec);
+      });
+
+      const submitBtn = document.createElement('button');
+      submitBtn.type = 'submit';
+      submitBtn.textContent = '答え合わせ';
+      form.appendChild(submitBtn);
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        let bin = '';
+        for (const key in answers) {
+          const sel = document.querySelector(`input[name="${key}"]:checked`);
+          const result = document.getElementById(`r-${key}`);
+          if (sel && parseInt(sel.value) === answers[key]) {
+            result.textContent = '✅';
+            result.style.color = 'green';
+            bin += '1';
+          } else {
+            result.textContent = sel ? '❌' : '未選択';
+            result.style.color = sel ? 'red' : 'gray';
+            bin += '0';
+          }
+        }
+        const full = '1' + bin;
+        const code = BigInt('0b' + full).toString();
+        document.getElementById('resultCode').textContent = code;
+        generateQR(code);
+      });
+
+      document.getElementById('copyBtn').addEventListener('click', () => {
+        const code = document.getElementById('resultCode').textContent;
+        if (code.includes('生成されていません')) {
+          alert('まだコードが生成されていません。');
+          return;
+        }
+        const full = '問題確認コード：' + code;
+        navigator.clipboard.writeText(full)
+          .then(() => alert('コピーしました！\n\n' + full))
+          .catch(err => alert('コピー失敗: ' + err));
+      });
+    }
+
+    // 生成二维码
+    function generateQR(text) {
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = '';
+      const qr = new QRious({
+        element: document.createElement('canvas'),
+        value: text,
+        size: 200,
+        background: 'white',
+        foreground: '#003366'
+      });
+      qrContainer.appendChild(qr.element);
+    }
+
+    window.addEventListener('DOMContentLoaded', initQuiz);
+  </script>
+</head>
+<body>
+  <form id="quizForm"></form>
+
+  <div id="codeArea">
+    問題確認コード：<code id="resultCode">（まだ生成されていません）</code>
+    <button id="copyBtn">📋 コピー</button>
+    <div id="qrcode"></div>
+  </div>
+</body>
+</html>

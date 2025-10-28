@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>化学トップ｜学習小屋</title>
+  <meta name="description" content="学習小屋の化学トップページ。練習問題と講義ファイル閲覧への入口をまとめています。">
+  <link rel="stylesheet" href="../common/style.css" />
+</head>
+<body>
+  <!-- 共通ヘッダー -->
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <section class="card">
+      <h2>化学トップ</h2>
+      <p class="text-muted">無機・有機・理論化学などの教材・演習をまとめています。</p>
+
+      <!-- 带边框按钮（已去掉「講義ダウンロード」） -->
+      <div class="mt-6" style="display:flex; flex-direction:column; gap:20px;">
+        <a href="./exercise.html" class="btn-outline btn-outline-large" aria-label="演習ページ（練習問題）へ">
+          🧪 演習ページ（練習問題）
+        </a>
+        <a href="./lectures.html" class="btn-outline btn-outline-large" aria-label="学生用講義ファイル閲覧ページへ">
+          📚 学生用講義ファイル（閲覧）
+        </a>
+      </div>
+
+      <div class="notice">
+        ご不明な点は Wechat: oushidou040129 まで。<br/>
+        ページは作成中のため、不備があればご容赦ください。
+      </div>
+    </section>
+  </main>
+
+  <!-- 共通フッター -->
+  <div id="site-footer"></div>
+
+  <!-- 共通パーツ読込 -->
+  <script>
+    (async () => {
+      const hdr = await fetch('../common/header.html').then(r => r.text()).catch(() => '');
+      const ftr = await fetch('../common/footer.html').then(r => r.text()).catch(() => '');
+      document.getElementById('site-header').innerHTML = hdr;
+      document.getElementById('site-footer').innerHTML = ftr;
+    })();
+  </script>
+</body>
+</html>

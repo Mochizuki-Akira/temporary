@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学習小屋</title>
+  <meta name="description" content="高校理科の学習をサポートする学習小屋。化学・物理などのコンテンツを整理し、分かりやすく学べます。" />
+  <link rel="stylesheet" href="./common/style.css" />
+</head>
+<body>
+  <!-- 共通ヘッダー -->
+  <div id="site-header"></div>
+
+  <!-- Main -->
+  <main class="site-main">
+    <section class="card">
+      <h2>コンテンツ一覧</h2>
+      <a href="./che/index.html" class="link-button">化学ページへ</a>
+
+      <p class="notice">
+        このページは作成中のため、不備があればご容赦ください。<br />
+        問題があれば Wechat: oushidou040129 までご連絡ください。
+      </p>
+    </section>
+  </main>
+
+  <!-- 共通フッター -->
+  <div id="site-footer"></div>
+
+  <!-- 共通パーツの読み込み（rootページ用の相対パス） -->
+  <script>
+    (async () => {
+      const hdr = await fetch('./common/header.html').then(r => r.text()).catch(() => '');
+      const ftr = await fetch('./common/footer.html').then(r => r.text()).catch(() => '');
+      document.getElementById('site-header').innerHTML = hdr;
+      document.getElementById('site-footer').innerHTML = ftr;
+    })();
+  </script>
+</body>
+</html>
