@@ -7,20 +7,20 @@
   <link rel="stylesheet" href="../common/style.css" />
   <style>
     html, body {
-      margin: 0; padding: 0;
-      width: 100%; height: 100%;
-      background: #111;
-      color: #eee;
-      overflow-y: auto;
-      text-align: center;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      background: #000;
+      overflow: hidden;
       font-family: "Hiragino Kaku Gothic ProN", sans-serif;
     }
 
     /* 顶部返回按钮 */
     .overlay {
       position: fixed;
-      top: 14px; left: 14px;
-      z-index: 50;
+      top: 14px;
+      left: 14px;
+      z-index: 30;
     }
     .btn {
       display: inline-block;
@@ -36,135 +36,100 @@
     }
     .btn:hover { background: rgba(255,255,255,.2); }
 
+    /* PDF 容器（桌面用 iframe） */
+    #pdfFrame {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      background: #fff;
+    }
+
     /* 加载遮罩 */
     #loader {
-      position: fixed; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 14px;
-      background: linear-gradient(135deg, rgba(0,0,0,.6), rgba(0,0,0,.4));
-      z-index: 30;
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
       color: #fff;
+      background: linear-gradient(135deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
       text-align: center;
+      padding: 24px;
     }
     .spin {
-      width: 48px; height: 48px; border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       border: 4px solid rgba(255,255,255,.25);
-      border-top-color: #4a90e2;
+      border-top-color: #fff;
       animation: spin 1s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* PDF canvas */
-    #pdf-container {
+    .hint { opacity: .9; font-size: .95rem; }
+    .actions {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 60px;
-      gap: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
-    canvas {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-      max-width: 90vw;
-      height: auto;
-    }
-
-    /* 进度条 */
-    #progressBarContainer {
-      margin-top: 14px;
-      width: 80%; max-width: 360px;
-      height: 10px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.2);
-      overflow: hidden;
-    }
-    #progressBar {
-      height: 100%;
-      width: 0%;
+    .btn-primary {
+      border-color: #4a90e2;
       background: #4a90e2;
-      transition: width 0.3s;
     }
-
-    /* 回到顶部按钮 */
-    #toTop {
-      position: fixed;
-      right: 20px;
-      bottom: 30px;
-      z-index: 40;
-      background: #4a90e2;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 44px; height: 44px;
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-      display: none;
-      transition: opacity 0.3s;
-    }
-    #toTop:hover { background: #357ab8; }
   </style>
 </head>
 
 <body>
-  <!-- 顶部返回 -->
-  <div class="overlay"><a id="backBtn" class="btn">← 一覧に戻る</a></div>
+  <!-- 顶部返回：自动回到对应列表 -->
+  <div class="overlay">
+    <a id="backBtn" class="btn">← 一覧に戻る</a>
+  </div>
 
-  <!-- 加载指示 -->
-  <div id="loader">
-    <div class="spin"></div>
-    <div id="loadText">📘 PDFを読み込んでいます...</div>
+  <!-- PDF 区域（桌面端用） -->
+  <iframe id="pdfFrame" title="PDF Viewer"></iframe>
 
-    <div style="margin-top:10px;">
-      <label for="quality" style="font-size:0.9rem;">表示品質：</label>
-      <select id="quality" style="padding:4px 8px; border-radius:6px; border:none;">
-        <option value="1.0">低速（速い・低解像度）</option>
-        <option value="1.5" selected>普通（標準）</option>
-        <option value="2.0">高画質（遅い）</option>
-      </select>
-    </div>
-
-    <div id="progressBarContainer">
-      <div id="progressBar"></div>
+  <!-- 加载指示 & 超时兜底 -->
+  <div id="loader" aria-live="polite" aria-busy="true">
+    <div class="spin" aria-hidden="true"></div>
+    <div id="loadMsg">講義ファイルを読み込み中です…</div>
+    <div class="hint" id="loadHint">通信状況により 1〜2 秒かかることがあります。</div>
+    <div class="actions" style="display:none" id="slowActions">
+      <a id="openDirect" class="btn btn-primary" target="_self">📄 直接開く</a>
+      <button id="retryBtn" class="btn">↻ 再読み込み</button>
     </div>
   </div>
 
-  <!-- PDF 渲染容器 -->
-  <div id="pdf-container"></div>
-
-  <!-- 回到顶部 -->
-  <button id="toTop" title="トップへ戻る">↑</button>
-
-  <!-- pdf.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
-
   <script>
-    // === 文件映射表 ===
+    // —— 映射表（相对 /che/viewer.html；注意没有 ../）——
     const FILES = {
       '2510_1': 'assets/lectures/2510/chem_1.pdf',
       '2510_2': 'assets/lectures/2510/chem_2.pdf',
+      '2510_2b': 'assets/lectures/2510/chem_2b.pdf',
       '2510_3': 'assets/lectures/2510/chem_3.pdf',
       '2510_hw1': 'assets/lectures/2510/hw_1.pdf',
       '2510_hw2a': 'assets/lectures/2510/hw_2a.pdf',
       '2510_hw2b': 'assets/lectures/2510/hw_2b.pdf',
       '2510_hw3': 'assets/lectures/2510/hw_3.pdf'
+      // 如果以后有 2507 的，也可以照样在这里继续加
     };
 
-    // === 获取参数 ===
     const qs = new URLSearchParams(location.search);
     const id = qs.get('id') || '';
     const path = FILES[id];
-    const loader = document.getElementById('loader');
-    const loadText = document.getElementById('loadText');
-    const container = document.getElementById('pdf-container');
-    const backBtn = document.getElementById('backBtn');
-    const toTop = document.getElementById('toTop');
-    const qualitySel = document.getElementById('quality');
-    const progressBar = document.getElementById('progressBar');
 
-    // === 返回目标自动识别 ===
+    const frame       = document.getElementById('pdfFrame');
+    const loader      = document.getElementById('loader');
+    const loadMsg     = document.getElementById('loadMsg');
+    const loadHint    = document.getElementById('loadHint');
+    const slowActions = document.getElementById('slowActions');
+    const openDirect  = document.getElementById('openDirect');
+    const retryBtn    = document.getElementById('retryBtn');
+    const backBtn     = document.getElementById('backBtn');
+
+    // 返回目标：优先 referrer，再看 id 前缀
     let back = './lectures.html';
     const ref = document.referrer || '';
     if (ref.includes('list-2507.html')) back = './list-2507.html';
@@ -173,73 +138,67 @@
     else if (/^2510_/.test(id)) back = './list-2510.html';
     backBtn.href = back;
 
-    // === 清晰度记忆 ===
-    const savedQuality = localStorage.getItem('pdf_quality');
-    if (savedQuality) qualitySel.value = savedQuality;
-
-    // === 主逻辑 ===
     if (!path) {
-      loadText.textContent = '❌ 対象のPDFが見つかりません。';
+      // 没有有效文件：直接给出提示和返回按钮
+      loadMsg.textContent = '対象の講義が見つかりません。';
+      loadHint.textContent = '一覧に戻って別の資料を選択してください。';
+      slowActions.style.display = 'flex';
+      openDirect.textContent = '← 一覧に戻る';
+      openDirect.href = back;
     } else {
       document.title = `講義ファイル (${id})｜学習小屋`;
+      openDirect.href = path;
 
-      pdfjsLib.getDocument(path).promise.then(pdf => {
-        const total = pdf.numPages;
-        let loaded = 0;
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
 
-        const getScale = () => Math.min(3.0, parseFloat(qualitySel.value) * window.devicePixelRatio);
+      if (isMobile) {
+        // —— 手机：直接用系统 PDF 查看器打开（最清晰、支持缩放、分页）——
+        loadMsg.textContent = 'モバイル環境のため、ネイティブビューアで開きます…';
+        // 同页面跳转到 PDF
+        location.replace(path);
+      } else {
+        // —— 桌面端：在 iframe 中内嵌 + 加载反馈 —— 
+        const t0 = performance.now();
+        frame.src = path;
 
-        const renderNext = pageNum => {
-          pdf.getPage(pageNum).then(page => {
-            const viewport = page.getViewport({ scale: getScale() });
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            container.appendChild(canvas);
+        // 3 秒仍未加载：提示“还在加载”，展示直链/重试
+        const slowTimer = setTimeout(() => {
+          loadMsg.textContent = 'まだ読み込み中です…';
+          loadHint.textContent = 'ネットワークが混み合っている可能性があります。下のボタンから直接開く/再読み込みもできます。';
+          slowActions.style.display = 'flex';
+        }, 3000);
 
-            page.render({ canvasContext: context, viewport }).promise.then(() => {
-              loaded++;
-              progressBar.style.width = `${(loaded / total) * 100}%`;
-              loadText.textContent = `ページ ${loaded}/${total} を描画中...`;
+        // 10 秒仍未完成：强调兜底
+        const hardTimer = setTimeout(() => {
+          loadMsg.textContent = '読み込みに時間がかかっています。';
+          loadHint.textContent = '「📄 直接開く」を押すと同ページで表示します。';
+          slowActions.style.display = 'flex';
+        }, 10000);
 
-              if (pageNum < total) {
-                renderNext(pageNum + 1);
-              } else {
-                loadText.textContent = `全 ${total} ページの読み込みが完了しました ✅`;
-                progressBar.style.width = '100%';
-                setTimeout(() => loader.style.display = 'none', 800);
-              }
-            });
-          });
-        };
-
-        renderNext(1);
-
-        // 清晰度切换
-        qualitySel.addEventListener('change', () => {
-          localStorage.setItem('pdf_quality', qualitySel.value);
-          container.innerHTML = '';
-          progressBar.style.width = '0%';
-          loaded = 0;
-          loader.style.display = 'flex';
-          loadText.textContent = '再読み込み中...';
-          renderNext(1);
+        // 加载完成：关闭遮罩
+        frame.addEventListener('load', () => {
+          clearTimeout(slowTimer);
+          clearTimeout(hardTimer);
+          loader.style.display = 'none';
         });
 
-      }).catch(err => {
-        loadText.textContent = '⚠️ PDF読み込みに失敗しました。';
-        console.error(err);
-      });
-    }
+        // 失败兜底
+        frame.addEventListener('error', () => {
+          loadMsg.textContent = '読み込みに失敗しました。';
+          loadHint.textContent = '「📄 直接開く」または「↻ 再読み込み」をお試しください。';
+          slowActions.style.display = 'flex';
+        });
 
-    // === 回到顶部按钮 ===
-    window.addEventListener('scroll', () => {
-      toTop.style.display = window.scrollY > 300 ? 'block' : 'none';
-    });
-    toTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+        // 重试按钮：附带简单 cache-busting
+        retryBtn.addEventListener('click', () => {
+          slowActions.style.display = 'none';
+          loadMsg.textContent = '再読み込み中…';
+          const bust = (path.includes('?') ? '&' : '?') + 't=' + Date.now();
+          frame.src = path + bust;
+        });
+      }
+    }
   </script>
 </body>
 </html>
