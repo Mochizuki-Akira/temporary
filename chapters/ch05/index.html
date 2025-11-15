@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>5気体の性質</title>
+<!-- 打印模式识别（学生/教师） -->
+<style>
+  /* 打印时严格按当前视图输出（避免 revert 兼容性问题） */
+  @media print {
+    /* 学生视图：隐藏教师内容 */
+    body:not(.teacher-mode) .teacher-only {
+      display: none !important;
+      visibility: hidden !important;
+    }
+    /* 教师视图：明确显示各种区块/列表 */
+    body.teacher-mode .teacher-only { visibility: visible !important; }
+    body.teacher-mode p.teacher-only,
+    body.teacher-mode div.teacher-only,
+    body.teacher-mode section.teacher-only,
+    body.teacher-mode article.teacher-only,
+    body.teacher-mode table.teacher-only,
+    body.teacher-mode ol.teacher-only,
+    body.teacher-mode ul.teacher-only {
+      display: block !important;
+    }
+    body.teacher-mode li.teacher-only {
+      display: list-item !important;
+    }
+  }
+</style>
+<!-- 页面基础排版 -->
+<style>
+  body {
+    font-family:"Hiragino Kaku Gothic ProN",sans-serif;
+    max-width:900px;
+    margin:0 auto;
+    padding:32px;
+    line-height:1.7;
+    color:#111
+  }
+  h1,h2,h3{margin:16px 0}
+  table{border-collapse:collapse;width:100%;margin:12px 0}
+  td,th{border:1px solid #ddd;padding:6px;vertical-align:top}
+  ol,ul{margin:0 0 12px 24px}
+</style>
+<!-- 色彩主题与打印分页 -->
+<style>
+  :root{
+    --ink:#0f172a;
+    --muted:#475569;
+    --border:#e2e8f0;
+    --bg:#ffffff;
+    --accent:#2563eb;
+  }
+  html,body{background:var(--bg);color:var(--ink);}
+  body{
+    font-family:"Hiragino Kaku Gothic ProN","Noto Sans CJK JP",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    max-width:900px;
+    margin:0 auto;
+    padding:28px;
+    line-height:1.85
+  }
+  h1{
+    font-size:clamp(24px,3.6vw,34px);
+    margin:0 0 1rem;
+    border-left:6px solid var(--accent);
+    padding-left:12px
+  }
+  h2,h3,h4{
+    margin:1.1rem 0 0.5rem;
+    border-left:4px solid var(--accent);
+    padding-left:10px
+  }
+  body>p:first-of-type{
+    font-size:clamp(22px,3.2vw,30px);
+    font-weight:700;
+    margin:0 0 0.75rem;
+    border-left:6px solid var(--accent);
+    padding-left:12px
+  }
+  p{margin:0 0 0.6rem}
+  ol,ul{margin:0.2rem 0 0.9rem 1.4rem}
+  li{margin:0.25rem 0}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:1rem 0;
+    border:1px solid var(--border)
+  }
+  th,td{
+    border:1px solid var(--border);
+    padding:8px 10px;
+    vertical-align:top
+  }
+  tbody tr:nth-child(even){background:#fbfdff}
+  @media print{
+    @page{size:A4;margin:14mm}
+    body{padding:0}
+    body>p:first-of-type{border-color:#000}
+    h1,h2,h3,h4{border-color:#000}
+    .page-break-start{break-before:page;page-break-before:always;}
+    .page-break-end{break-after:page;page-break-after:always;}
+    .keep-with-next{break-after:avoid;page-break-after:avoid;}
+    .keep-together{break-inside:avoid;page-break-inside:avoid;}
+  }
+</style>
+<link href="../../common/style_base.css" rel="stylesheet"/>
+<link href="../../common/ink.css" rel="stylesheet"/>
+<script defer="" src="../../common/script.js"></script>
+<script defer="" src="../../common/ink.js"></script>
+<style>
+  a { pointer-events:auto; }
+  .teacher-only{display:none;}
+  .teacher-mode .teacher-only{display:block;}
+  .teacher-underline{
+    text-decoration-line:underline;
+    text-decoration-style:wavy;
+    text-decoration-color:#0ea5e9;
+  }
+</style>
+<script>
+  (function(){
+    // 清理历史持久化键
+    try{
+      var keys=['teacherMode','teacher.enabled','view-role','role','teacher_mode','ink:role'];
+      keys.forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
+    }catch(e){}
+    document.addEventListener('DOMContentLoaded',function(){
+      document.body.classList.remove('teacher-mode');
+    });
+  })();
+</script>
+<style id="ultimate-print-override">
+/* —— 终极覆盖：保证按当前模式打印 —— */
+@media print {
+  body.print-student .teacher-only {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  body.print-teacher .teacher-only {
+    visibility: visible !important;
+    display: initial !important;
+  }
+  body.print-teacher p.teacher-only,
+  body.print-teacher div.teacher-only,
+  body.print-teacher section.teacher-only,
+  body.print-teacher article.teacher-only,
+  body.print-teacher table.teacher-only,
+  body.print-teacher ol.teacher-only,
+  body.print-teacher ul.teacher-only,
+  body.print-teacher figure.teacher-only {
+    display: block !important;
+  }
+  body.print-teacher li.teacher-only {
+    display: list-item !important;
+  }
+  body.print-teacher span.teacher-only,
+  body.print-teacher a.teacher-only,
+  body.print-teacher em.teacher-only,
+  body.print-teacher strong.teacher-only,
+  body.print-teacher code.teacher-only {
+    display: inline !important;
+  }
+}
+</style>
+<script id="default-student-on-load">
+window.addEventListener("DOMContentLoaded",()=>{
+  document.body.classList.remove("teacher-mode");
+  document.body.classList.add("student");
+});
+</script>
+<style id="line-height-img-tools">
+:root { --lh: 1.85; } /* 行距对应正文行高 */
+.h-3lines { height: auto; width: auto; max-height: calc(1em * var(--lh) * 3); }
+.h-6lines { height: auto; width: auto; max-height: calc(1em * var(--lh) * 6); }
+.fig img { max-width: 100%; height: auto; }
+</style>
+
+<!-- 图片/布局相关样式 -->
+<style>
+:root{--ink:#0f172a;--muted:#475569;--border:#e2e8f0;--bg:#ffffff;--accent:#2563eb;}
+figure{
+  margin:1rem 0;
+  border:1px solid var(--border);
+  padding:10px;
+  border-radius:10px;
+  background:#f8fafc
+}
+figure img{
+  display:block;
+  width:100%;
+  height:auto
+}
+figcaption{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:0.95rem
+}
+.note{
+  border-left:4px solid var(--accent);
+  background:#f0f7ff;
+  padding:10px 12px;
+  border-radius:8px;
+  margin:10px 0
+}
+hr{
+  border:none;
+  border-top:1px dashed var(--border);
+  margin:24px 0
+}
+
+/* === Right-side image layout === */
+figure.side{
+  float:right;
+  max-width:36%;
+  min-width:240px;
+  margin:0.1rem 0 0.6rem 0.9rem;
+  border:1px solid var(--border);
+  padding:10px;
+  border-radius:10px;
+  background:#f8fafc;
+  text-align:center
+}
+figure.side img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:8px;
+  box-shadow:0 0 4px #ccc;
+  margin:0.2rem auto
+}
+/* Ensure headings start on a new row, not beside floats */
+h1,h2,h3{clear:both}
+/* Mobile: fall back to single-column */
+@media (max-width: 900px){
+  figure.side{
+    float:right;
+    max-width:36%;
+    min-width:240px;
+    margin:0.1rem 0 0.6rem 0.9rem;
+    border:1px solid var(--border);
+    padding:10px;
+    border-radius:10px;
+    background:#f8fafc;
+    text-align:center
+  }
+}
+@media print{
+  figure.side{
+    float:right;
+    max-width:36%;
+    min-width:240px;
+    margin:0.1rem 0 0.6rem 0.9rem;
+    border:1px solid var(--border);
+    padding:10px;
+    border-radius:10px;
+    background:#f8fafc;
+    text-align:center
+  }
+}
+
+/* --- 修正：避免右侧浮动与后续图片重叠/错位 --- */
+figure:not(.side){clear: both;}        /* 普通图片总是在任何浮动之下开始 */
+@media (max-width: 900px){
+  figure:not(.side){clear: none;}
+}
+</style>
+</head>
+<body class="student">
+<header class="site">
+  <div>
+    <strong>気体・物質の状態 総合版</strong>
+  </div>
+  <div>
+    <button class="btn btn-primary" id="btn-teacher">
+      教师用
+    </button>
+    <button class="btn" id="btn-print">
+      印刷
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- 一、物質の三態 -->
+  <h1>一、物質の三態</h1>
+
+  <h2>1. 状態変化</h2>
+  <figure class="side">
+    <img src="assets/501.png" alt="図 501：三態と状態変化（固体・液体・気体、融解・凝固・蒸発・凝縮・昇華）">
+    <figcaption>図 501　三態と主な状態変化</figcaption>
+  </figure>
+  <p>固体 ⇄ 液体 ⇄ 気体 の間で起こる状態変化：</p>
+  <ul>
+    <li>融解（固体 → 液体）／凝固（液体 → 固体）</li>
+    <li>蒸発・沸騰（液体 → 気体）／凝縮（気体 → 液体）</li>
+    <li>凝華（固体 → 気体）／昇華（気体 → 固体）</li>
+  </ul>
+
+  <p>水の加熱による温度変化とエネルギー：</p>
+  <ul>
+    <li>融点付近：固体 → 固体と液体（融解；融解熱）</li>
+    <li>液体の加熱：温度上昇</li>
+    <li>沸点付近：液体 → 液体と気体（沸騰；蒸発熱）</li>
+    <li>気体の加熱：温度上昇</li>
+  </ul>
+
+  <!-- 502 正常大小 -->
+  <figure>
+    <img src="assets/502.png" alt="図 502：水の状態変化とエネルギー（温度-時間グラフ）">
+    <figcaption>図 502　水の状態変化とエネルギー（温度 vs 加熱時間）</figcaption>
+  </figure>
+
+  <h2>2. 状態図：純物質の状態は温度と圧力で決まる</h2>
+  <p>例：水 (H<sub>2</sub>O) の状態図</p>
+  <ul>
+    <li>蒸気圧曲線／融解曲線／昇華圧曲線</li>
+    <li>三重点：固体・液体・気体が共存できる唯一の点</li>
+    <li>超臨界状態：臨界点を超え液体と気体の区別がなくなる</li>
+  </ul>
+
+  <h3>比較：水と二酸化炭素の状態図</h3>
+  <!-- 504 正常大小 -->
+  <figure>
+    <img src="assets/504.png" alt="図 504：水と二酸化炭素の状態図比較">
+    <figcaption>図 504　水と二酸化炭素の状態図の比較</figcaption>
+  </figure>
+
+  <hr>
+
+  <!-- 二、基礎の確認・気体の性質 -->
+  <h1>二、基礎の確認・気体の性質</h1>
+
+  <h2>1. 粒子の拡散と熱運動</h2>
+  <figure class="side">
+    <img src="assets/506.png" alt="図 506：拡散と熱運動のモデル図">
+    <figcaption>図 506　分子の熱運動モデル</figcaption>
+  </figure>
+  <p>・拡散：物質の粒子が自由に散らばって全体に広がる現象。</p>
+  <p>・熱運動：物質を構成する粒子が絶えず不規則に運動している。この運動を熱運動という。</p>
+
+  
+
+  <h2>2. 温度</h2>
+  <p>・温度：熱運動の激しさに対応しているもの（単位：℃）。</p>
+  <p style="color:#b91c1c">※ 温度が高いほど、粒子の熱運動は激しい。</p>
+  <p>・分子の速度分布：</p>
+  <p>・絶対温度 <em>T</em> ：セルシウス温度 <em>t</em> に 273 を足したもの（単位：K）。</p>
+  <div class="note"><strong>T［K］ = t［℃］ + 273</strong></div>
+
+  <h2>3. ボイルの法則（温度一定）</h2>
+  <figure class="side">
+    <img src="assets/509.png" alt="図 509：ボイルの法則 P-V">
+    <figcaption>図 509　ボイルの法則（P–V 曲線）</figcaption>
+  </figure>
+  <p>温度一定のとき、一定物質量の気体の体積 <em>V</em> は圧力 <em>P</em> に反比例。</p>
+  <div class="note">
+    <strong>例：</strong><br>
+    温度を一定に保ったまま、3.0×10<sup>5</sup> Paで10 Lの気体を15 Lの容器に入れると、圧力は何 Paになるか。
+  </div>
+
+  <h2>4. シャルルの法則（圧力一定）</h2>
+  <figure class="side">
+    <img src="assets/510.png" alt="図 510：シャルルの法則 V-t">
+    <figcaption>図 510　シャルルの法則（V–t 直線）</figcaption>
+  </figure>
+  <p>圧力一定のとき、一定物質量の体積 <em>V</em> は絶対温度 <em>T</em> に比例。</p>
+  <div class="note">
+    <strong>例：</strong><br>
+    圧力を一定に保ったまま、27℃で6 Lの気体を −73℃ に冷却すると、体積は何 Lになるか。
+  </div>
+
+  <h2>5. ボイル・シャルルの法則</h2>
+
+  <div class="note">
+    
+    <p><strong>ボイル・シャルルの法則</strong></p>
+    <p><em>PV/T = k<sub>3</sub></em>（一定）</p>
+    <p><em>P<sub>1</sub>V<sub>1</sub>/T<sub>1</sub> = P<sub>2</sub>V<sub>2</sub>/T<sub>2</sub></em></p>
+  </div>
+
+  <p>一定物質量の気体で、<em>V</em> は <em>P</em> に反比例し、<em>T</em> に比例。</p>
+
+  <div class="note">
+    <strong>例：</strong><br>
+    27℃・2.0×10<sup>5</sup> Paで 5.0 L を占める気体がある。<br>
+    この気体を 87℃・1.0×10<sup>5</sup> Pa にすると、体積は何 Lになるか。
+  </div>
+
+  <h2>標準状態と気体定数 R</h2>
+  <p>標準状態（0℃, 1.013×10<sup>5</sup> Pa）で 1 mol の体積 = 22.4 L。</p>
+  <div class="note">
+    <p><strong>気体定数 R</strong>（普遍定数）</p>
+    <ul>
+      <li>R = 8.314 462 618… J·mol<sup>−1</sup>·K<sup>−1</sup></li>
+      <li>換算：R ≈ 0.082057 L·atm·mol<sup>−1</sup>·K<sup>−1</sup> ≈ 8.314 kPa·L·mol<sup>−1</sup>·K<sup>−1</sup></li>
+    </ul>
+  </div>
+
+  <h2>6. 気体の状態方程式</h2>
+  <p><strong>PV = nRT</strong></p>
+
+  <h3>練習問題（状態方程式の応用）</h3>
+
+  <!-- 513,514 不受大小限制 -->
+  <figure>
+    <img src="assets/513.png" alt="図 513：問6（27℃・N2 1.6 mol・2.0×10^5 Pa の密度）">
+    <figcaption>図 513　問6：密度（g/L）を求める</figcaption>
+  </figure>
+
+  <figure>
+    <img src="assets/514.png" alt="図 514：問4（組成式 C3H5・100 mL・100℃・1 atm・質量 268 mg）">
+    <figcaption>図 514　問4：分子式の決定</figcaption>
+  </figure>
+
+  <h2>7. 理想気体と実在気体</h2>
+  <figure >
+    <img src="assets/515.png" alt="図 515：理想気体と実在気体の比較表">
+    <figcaption>図 515　理想気体と実在気体</figcaption>
+  </figure>
+
+  <p class="note">※ 実在気体は、<strong>高温・低圧</strong>、また<strong>分子量が小さい</strong>ほど、理想気体として近似できる。</p>
+
+  <figure class="side">
+    <img src="assets/516.png" alt="図 516：PV/nRT と圧力（CH4・H2・CO2 等）">
+    <figcaption>図 516　実在気体のずれ（PV/nRT の圧力依存）</figcaption>
+  </figure>
+
+  <hr>
+
+  <!-- 三、混合気体 -->
+  <h1>三、混合気体</h1>
+
+  <h2>1. 全圧と分圧</h2>
+  <figure >
+    <img src="assets/517.png" alt="図 517：全圧と分圧のイメージ">
+    <figcaption>図 517　全圧と分圧（同体積 V・同温度 T）</figcaption>
+  </figure>
+  <p>全圧：混合気体全体が示す圧力。</p>
+  <p>分圧：混合気体と<strong>同じ体積</strong>を占める各成分気体が示す圧力。</p>
+
+  <h2>2. ドルトンの分圧の法則</h2>
+  
+  <p>混合気体の全圧は、各成分の分圧の和。</p>
+  <div class="note"><strong>P = P<sub>A</sub> + P<sub>B</sub></strong></div>
+
+  <h2>3. 分圧の計算</h2>
+  <h3>(1) 分圧と物質量</h3>
+  <p>分圧の比は物質量の比に等しい。</p>
+  <div class="note"><strong>P<sub>A</sub> / P<sub>B</sub> = n<sub>A</sub> / n<sub>B</sub></strong></div>
+
+  <h3>(2) 分圧とモル分率</h3>
+  <p>P<sub>A</sub> = ( n<sub>A</sub> / ( n<sub>A</sub> + n<sub>B</sub> ) ) × P</p>
+
+  <h2>4. 混合気体の平均分子量</h2>
+ 
+  <div class="note">
+    <strong>&#772;M = ( n<sub>A</sub>/(n<sub>A</sub>+n<sub>B</sub>) ) M<sub>A</sub> + ( n<sub>B</sub>/(n<sub>A</sub>+n<sub>B</sub>) ) M<sub>B</sub></strong>
+  </div>
+  <p>例：空気の平均分子量</p>
+
+  <h2>練習問題（混合気体）</h2>
+
+  <!-- 520,521,522 不受大小限制 -->
+  <figure>
+    <img src="assets/520.png" alt="図 520：問6（22.4 L、0℃、He と O2 の混合、質量 x）">
+    <figcaption>図 520　問6：混合気体の質量</figcaption>
+  </figure>
+
+  <figure>
+    <img src="assets/521.png" alt="図 521：例3（連結容器、分圧と全圧）">
+    <figcaption>図 521　例3：酸素の分圧と全圧</figcaption>
+  </figure>
+
+  <figure>
+    <img src="assets/522.png" alt="図 522：問13（C3H8 と O2 の燃焼後、P1/P0）">
+    <figcaption>図 522　問13：完全燃焼後の圧力比</figcaption>
+  </figure>
+
+  <hr>
+
+  <!-- 四、気体・液体間の状態変化 -->
+  <h1>四、気体・液体間の状態変化</h1>
+
+  <h2>1. 蒸発</h2>
+  <figure class="side">
+    <img src="assets/523.png" alt="図 523：気液平衡モデル図">
+    <figcaption>図 523　気液平衡と飽和蒸気圧</figcaption>
+  </figure>
+  <p>液体の分子が表面から気体になる現象。<strong style="color:#b91c1c">どの温度でも起こる。</strong></p>
+  <ul>
+    <li>気液平衡：蒸発と凝縮の速度が等しく，見かけ上，変化が起こらない状態。</li>
+    <li>(飽和) 蒸気圧：気液平衡にあるときの蒸気の圧力。</li>
+  </ul>
+
+  <div class="note">
+    <p>一定温度の蒸気圧は物質ごとに一定で，他の気体が共存しても変わらない。</p>
+    <p><strong style="color:#b91c1c">蒸気圧は温度だけに依存し，高いほど大きい。</strong></p>
+  </div>
+
+  <p>・蒸気圧曲線：液体の蒸気圧と温度との関係を示したグラフ。</p>
+  <figure class="side">
+    <img src="assets/524.png" alt="図 524：蒸気圧曲線（水・エタノール・ジエチルエーテル）">
+    <figcaption>図 524　蒸気圧と温度の関係</figcaption>
+  </figure>
+
+  <h2>練習問題（蒸気圧）</h2>
+
+  <!-- 525,526 不受大小限制 -->
+  <figure>
+    <img src="assets/525.png" alt="図 525：問6（点火後、33℃で水蒸気のみ、体積）">
+    <figcaption>図 525　問6：33℃ の水の蒸気圧を用いて体積を求める</figcaption>
+  </figure>
+
+  <figure>
+    <img src="assets/526.png" alt="図 526：問5（ピストン付き容器、V→V/2→V/4 の圧力関係）">
+    <figcaption>図 526　問5：P_A, P_B, P_C の大小</figcaption>
+  </figure>
+
+</main>
+
+<p></p>
+
+<script id="sanitize-print-button">
+document.addEventListener('DOMContentLoaded', function () {
+  var btnTeacher = document.getElementById('btn-teacher');
+  if (btnTeacher) {
+    btnTeacher.addEventListener('click', function(){
+      var toTeacher = !document.body.classList.contains('teacher-mode');
+      document.body.classList.toggle('teacher-mode', toTeacher);
+      document.body.classList.toggle('student', !toTeacher);
+    });
+  }
+
+  var oldBtn = document.getElementById('btn-print');
+  if (!oldBtn) return;
+
+  var btn = oldBtn.cloneNode(true);
+  btn.type = 'button';
+  btn.removeAttribute('onclick');
+  if (btn.tagName.toLowerCase() === 'a') btn.setAttribute('href', '#');
+  oldBtn.parentNode.replaceChild(btn, oldBtn);
+
+  let printing = false;
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    if (printing) return;
+    printing = true;
+    const isTeacher = document.body.classList.contains('teacher-mode');
+    document.body.classList.toggle('print-teacher', isTeacher);
+    document.body.classList.toggle('print-student', !isTeacher);
+    requestAnimationFrame(function () {
+      window.print();
+      setTimeout(function () {
+        printing = false;
+        document.body.classList.remove('print-teacher','print-student');
+      }, 1200);
+    });
+  }, { capture: true, passive: false });
+});
+</script>
+</body>
+</html>

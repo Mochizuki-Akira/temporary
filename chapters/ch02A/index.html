@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>第2章：2A化学結合（原文完全HTML化）</title>
+<!-- 打印模式识别（学生/教师） -->
+<style>
+  /* 打印时严格按当前视图输出（避免 revert 兼容性问题） */
+  @media print {
+    /* 学生视图：隐藏教师内容 */
+    body:not(.teacher-mode) .teacher-only {
+      display: none !important;
+      visibility: hidden !important;
+    }
+    /* 教师视图：明确显示各种区块/列表 */
+    body.teacher-mode .teacher-only { visibility: visible !important; }
+    body.teacher-mode p.teacher-only,
+    body.teacher-mode div.teacher-only,
+    body.teacher-mode section.teacher-only,
+    body.teacher-mode article.teacher-only,
+    body.teacher-mode table.teacher-only,
+    body.teacher-mode ol.teacher-only,
+    body.teacher-mode ul.teacher-only {
+      display: block !important;
+    }
+    body.teacher-mode li.teacher-only {
+      display: list-item !important;
+    }
+  }
+  </style>
+<!-- 页面基础排版 -->
+<style>
+    body {font-family:"Hiragino Kaku Gothic ProN",sans-serif;max-width:900px;margin:0 auto;padding:32px;line-height:1.7;color:#111}
+    h1,h2,h3{margin:16px 0}
+    table{border-collapse:collapse;width:100%;margin:12px 0}
+    td,th{border:1px solid #ddd;padding:6px;vertical-align:top}
+    ol,ul{margin:0 0 12px 24px}
+  </style>
+<!-- 色彩主题与打印分页 -->
+<style>
+    :root{--ink:#0f172a;--muted:#475569;--border:#e2e8f0;--bg:#ffffff;--accent:#2563eb;}
+    html,body{background:var(--bg);color:var(--ink);}
+    body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans CJK JP",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    max-width:900px;margin:0 auto;padding:28px;line-height:1.85}
+    h1{font-size:clamp(24px,3.6vw,34px);margin:0 0 1rem;border-left:6px solid var(--accent);padding-left:12px}
+    h2,h3,h4{margin:1.1rem 0 0.5rem;border-left:4px solid var(--accent);padding-left:10px}
+    body>p:first-of-type{font-size:clamp(22px,3.2vw,30px);font-weight:700;margin:0 0 0.75rem;
+    border-left:6px solid var(--accent);padding-left:12px}
+    p{margin:0 0 0.6rem}
+    ol,ul{margin:0.2rem 0 0.9rem 1.4rem}
+    li{margin:0.25rem 0}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;border:1px solid var(--border)}
+    th,td{border:1px solid var(--border);padding:8px 10px;vertical-align:top}
+    tbody tr:nth-child(even){background:#fbfdff}
+    @media print{
+      @page{size:A4;margin:14mm}
+      body{padding:0}
+      body>p:first-of-type{border-color:#000}
+      h1,h2,h3,h4{border-color:#000}
+      .page-break-start{break-before:page;page-break-before:always;}
+      .page-break-end{break-after:page;page-break-after:always;}
+      .keep-with-next{break-after:avoid;page-break-after:avoid;}
+      .keep-together{break-inside:avoid;page-break-inside:avoid;}
+    }
+  </style>
+<link href="../../common/style_base.css" rel="stylesheet"/>
+<link href="../../common/ink.css" rel="stylesheet"/>
+<script defer="" src="../../common/script.js"></script>
+<script defer="" src="../../common/ink.js"></script>
+<style>
+    a { pointer-events:auto; }
+    .teacher-only{display:none;}
+    .teacher-mode .teacher-only{display:block;}
+    .teacher-underline{
+      text-decoration-line:underline;
+      text-decoration-style:wavy;
+      text-decoration-color:#0ea5e9;
+    }
+  </style>
+<script>
+  (function(){
+    // 清理历史持久化键
+    try{
+      var keys=['teacherMode','teacher.enabled','view-role','role','teacher_mode','ink:role'];
+      keys.forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
+    }catch(e){}
+    document.addEventListener('DOMContentLoaded',function(){
+      document.body.classList.remove('teacher-mode');
+    });
+  })();
+  </script>
+<style id="ultimate-print-override">
+/* —— 终极覆盖：保证按当前模式打印 —— */
+@media print {
+  body.print-student .teacher-only {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  body.print-teacher .teacher-only {
+    visibility: visible !important;
+    display: initial !important;
+  }
+  body.print-teacher p.teacher-only,
+  body.print-teacher div.teacher-only,
+  body.print-teacher section.teacher-only,
+  body.print-teacher article.teacher-only,
+  body.print-teacher table.teacher-only,
+  body.print-teacher ol.teacher-only,
+  body.print-teacher ul.teacher-only,
+  body.print-teacher figure.teacher-only {
+    display: block !important;
+  }
+  body.print-teacher li.teacher-only {
+    display: list-item !important;
+  }
+  body.print-teacher span.teacher-only,
+  body.print-teacher a.teacher-only,
+  body.print-teacher em.teacher-only,
+  body.print-teacher strong.teacher-only,
+  body.print-teacher code.teacher-only {
+    display: inline !important;
+  }
+}
+</style><script id="default-student-on-load">
+window.addEventListener("DOMContentLoaded",()=>{
+  document.body.classList.remove("teacher-mode");
+  document.body.classList.add("student");
+});
+</script><style id="line-height-img-tools">
+:root { --lh: 1.85; } /* 行距对应正文行高 */
+.h-3lines { height: auto; width: auto; max-height: calc(1em * var(--lh) * 3); }
+.h-6lines { height: auto; width: auto; max-height: calc(1em * var(--lh) * 6); }
+.fig img { max-width: 100%; height: auto; }
+</style></head>
+<body class="student">
+<header class="site">
+<div>
+<strong>第2章：2A化学結合</strong>
+</div>
+<div>
+<button class="btn btn-primary" id="btn-teacher">
+     教师用
+    </button>
+<button class="btn" id="btn-print">
+     印刷
+    </button>
+</div>
+</header><main><h2>化学結合</h2><ol style="list-style: none; padding-left: 0;"><li><p>１、　化学結合</p><p>原子どうしやイオンどうしの強い結びつきを化学結合という。化学結合には、「金属結合」「イオン結合」「共有結合」がある。</p></li><li><p>２、　金属結合</p><ol style="list-style: none; padding-left: 1.5em;"><li><p>1)　金属結合：⾃由電⼦による⾦属原⼦の間の結合。</p></li><li><p>2)　自由電子：金属原子から放出された価電子で、特定の原子に属さず、金属全体の中を自由に移動できる電子。</p></li><li><p>3)　金属結晶：金属結合で結ばれた金属原子の固体。</p></li><li><p>4)　金属結晶の性質：</p><ol style="list-style: none; padding-left: 1.8em;"><li><p>①　金属光沢がある。</p></li><li><p>②　熱伝導性や電気伝導性が大きい。</p></li><li><p>③　展性（薄く広げることのできる性質）</p></li><li><p>④　延性（線状に引き延ばすことのできる性質）</p></li></ol></li></ol></li><li><p>３、　イオン結合</p><ol style="list-style: none; padding-left: 1.5em;"><li><p>1)　イオン結合：陽イオンと陰イオンの静電気的な引⼒(クーロン⼒)による結合。</p></li><li><p>2)　イオンからなる物質</p><ol style="list-style: none; padding-left: 1.8em;"><li><p>①　表し⽅：組成式(構成イオンの種類とその数の割合を最も簡単な整数⽐で表した化学式)</p></li><li><p>②　イオン結晶：陽イオンと陰イオンがイオン結合によってできた結晶。</p></li><li><p>③　イオン結晶の性質：</p><ol style="list-style: none; padding-left: 2.0em;"><li><p>i.　⼀般に、融点が高い。</p></li><li><p>ii.　硬いが、強い⼒を加えると結晶の特定な⾯に沿って割れやすい。</p></li><li><p>iii.　固体は電気を通さないが、⽔溶液にしたり、融解したりすると電気を通す。</p></li></ol></li></ol></li><li><p>3)　イオン結晶：陽イオンと陰イオンがイオン結合によってできた結晶。</p></li></ol></li><li><p>４、　共有結合と分子</p><ol style="list-style: none; padding-left: 1.5em;"><li><p>1)　分子：いくつかの原⼦から構成される電荷的に中性な粒⼦。</p></li><li><p>2)　分⼦の形成と共有結合：希ガス以外の⾮⾦属元素の原⼦どうしは、互いに価電⼦を出し合い、共有することによって、希ガスの原⼦と同じ安定な電⼦配置をとろうとする傾向がある。このようにして原⼦間には強い結合(共有結合)が⽣じ、分⼦が形成される。</p><p class="teacher-only teacher-underline"><a class="teacher-only teacher-underline" href="#practice-1">練習1</a></p></li><li><p>※ 分⼦の電⼦総数：分⼦を構成するすべての原⼦の原⼦番号の和</p></li><li><p>3)　分⼦の種類：単原⼦分⼦、⼆原⼦分⼦、多原⼦分⼦</p><p class="teacher-only teacher-underline"><a class="teacher-only teacher-underline" href="#practice-2">練習2</a></p></li><li><p>4)　分⼦の表し⽅：</p><p class="teacher-only teacher-underline"><a class="teacher-only teacher-underline" href="#practice-3">練習3</a></p><ol style="list-style: none; padding-left: 1.8em;"><li><p>①　分⼦式</p></li><li><p>②　電⼦式：元素記号の周りに、最外殻電⼦を・で表した化学式。</p></li><li><p>i.　原⼦の電⼦式</p><figure class="fig keep-together" id="fig-201"><img alt="図201　原子の電子式" src="assets/201.png"/><figcaption>図201　原子の電子式</figcaption></figure></li><li><p>ii.　分⼦の電⼦式</p><figure class="fig keep-together" id="fig-202"><img alt="図202　分子の電子式" src="assets/202.png"/><figcaption>図202　分子の電子式</figcaption></figure><div class="teacher-only teacher-underline"><p>画分⼦的电⼦式的步骤：</p><p>1. 根据分⼦式，先画出所有构成原⼦的电⼦式</p><p>2. 将不对电⼦在原⼦之间组成共有电⼦对</p><p>3. 检查每个原⼦周围都满⾜8个电⼦(H原⼦是2个电⼦)</p></div></li><li><p>③　構造式：1組の共有電⼦対(：)を価標と呼ばれる1本の線(−)で表した化学式。構造式では、⾮共有電⼦対が省略されている。</p></li></ol><div><p>電⼦対：最外殻電⼦のうち、2 個で対となった電⼦。</p><p>不対電⼦：対になっていない電⼦。</p></div></li><li><p>5)　分⼦の形：分⼦の⽴体的な形はさまざまである。</p><p class="teacher-only teacher-underline"><a class="teacher-only teacher-underline" href="#practice-4">練習4</a></p></li><p>※ 構造式は、分⼦中における原⼦の結合の様⼦を平⾯的に表したもので、必ずしも実際の形とは⼀致しない。</p><figure class="fig keep-together" id="fig-203"><img alt="図203" src="assets/203.png"/><figcaption>図203</figcaption></figure><p class="teacher-only teacher-underline"><a class="teacher-only teacher-underline" href="#practice-5">練習5</a></p><li><p>6)　配位結合：電⼦対が⼀⽅の原⼦(団)だけから提供されることで形成した共有結合を、特に配位結合という。</p></li><p>例：アンモニウムイオンNH4+，オキソニウムイオンH3O+</p><li><p>7)　分⼦の極性</p><ol style="list-style: none; padding-left: 1.8em;"><li><p>①　電気陰性度：原⼦が共有電⼦対を引きつける強さを数値で表したもの。</p></li><p>周期表上で、希ガスを除いて、右上にいくほど電気陰性度は⼤きくなり、フッ素で最⼤となる。</p><li><p>②　結合の極性： 共有電⼦対が⼀⽅の原⼦に偏っているとき、「結合に極性がある」という。</p></li><li><p>③　分⼦の極性：</p><ol style="list-style: none; padding-left: 2.0em;"><li><p>i.　⼆原⼦分⼦の場合：分⼦の極性は結合の極性に⼀致する</p></li><li><p>ii.　多原⼦分⼦の場合：分⼦の極性には分⼦の形が関係する</p></li></ol></li></ol></li><li><p>8)　分⼦間⼒：分⼦間にはたらく弱い引⼒</p><ol style="list-style: none; padding-left: 1.8em;"><li><p>①　ファンデルワールス⼒</p><ol style="list-style: none; padding-left: 2.0em;"><li><p>i.　全ての分⼦間にはたらく引⼒</p></li><li><p>ii.　極性分⼦間にはたらく静電気的な引⼒</p></li></ol></li><li><p>②　⽔素結合：⽔素原⼦を介して隣接する分⼦が静電的に引き合う結合。主にN・O・Fのような電気陰性度の⾼い原⼦に結合した⽔素が関与する。ファンデルワールス⼒より強いが、共有結合やイオン結合よりは弱い。</p></li></ol></li><li><p class="teacher-only teacher-underline"><a class="teacher-only teacher-underline" href="#practice-6">練習6</a></p><p>9)　共有結合の結晶：多数の原⼦が共有結合でつながった結晶</p></li><p>例：ダイヤモンド、ケイ素、二酸化珪素</p><li><p>10)　分⼦結晶：多数の分⼦が分⼦間⼒で引き合い、規則正しく配列してできた結晶</p><figure class="fig keep-together" id="fig-204"><img alt="図204" src="assets/204.png"/><figcaption>図204</figcaption></figure></li></ol></li></ol><h3>合金</h3><table><thead><tr><th>合金</th><th>成分</th><th>特徴</th><th>用途</th></tr></thead><tbody><tr><td>ステンレス鋼</td><td>Fe, Cr, Ni, C</td><td>さびにくい。</td><td>流し台、工具</td></tr><tr><td>青銅（ブロンズ）</td><td>Cu, Sn</td><td>鋳物にしやすく、かたい。</td><td>銅像</td></tr><tr><td>黄銅（真ちゅう）</td><td>Cu, Zn</td><td>加工しやすい。</td><td>楽器</td></tr><tr><td>ジュラルミン</td><td>Al, Cu, Mg</td><td>軽くて強い。</td><td>航空機の機体</td></tr><tr><td>はんだ</td><td>Sn, Pb, Cu</td><td>融点が低い。</td><td>金属の接合剤</td></tr><tr><td>ニクロム</td><td>Ni, Cr</td><td>電気抵抗が大きい。</td><td>電熱線</td></tr></tbody></table><p class="page-break-start" id="practice-1"></p><h3>練習</h3><section id="practice-1"><h4>練習1</h4><figure class="fig keep-together" id="fig-205"><img alt="図205" src="assets/205.png"/><figcaption>図205</figcaption></figure></section><section id="practice-2"><h4>練習2</h4><figure class="fig keep-together" id="fig-206"><img alt="図206" src="assets/206.png"/><figcaption>図206</figcaption></figure></section><section id="practice-3"><h4>練習3</h4><figure class="fig keep-together" id="fig-207"><img alt="図207" src="assets/207.png"/><figcaption>図207</figcaption></figure></section><section id="practice-4"><h4>練習4</h4><figure class="fig keep-together" id="fig-208"><img alt="図208" src="assets/208.png"/><figcaption>図208</figcaption></figure></section><section id="practice-5"><h4>練習5</h4><figure class="fig keep-together" id="fig-209"><img alt="図209" src="assets/209.png"/><figcaption>図209</figcaption></figure></section><section id="practice-6"><h4>練習6</h4><figure class="fig keep-together" id="fig-210"><img alt="図210" src="assets/210.png"/><figcaption>図210</figcaption></figure></section><section id="practice-7"><h4>練習7</h4><figure class="fig keep-together" id="fig-211"><img alt="図211" src="assets/211.png"/><figcaption>図211</figcaption></figure></section></main>
+<p>
+</p>
+<script id="sanitize-print-button">
+document.addEventListener('DOMContentLoaded', function () {
+  var btnTeacher = document.getElementById('btn-teacher');
+  if (btnTeacher) {
+    btnTeacher.addEventListener('click', function(){
+      var toTeacher = !document.body.classList.contains('teacher-mode');
+      document.body.classList.toggle('teacher-mode', toTeacher);
+      document.body.classList.toggle('student', !toTeacher);
+    });
+  }
+
+  var oldBtn = document.getElementById('btn-print');
+  if (!oldBtn) return;
+
+  var btn = oldBtn.cloneNode(true);
+  btn.type = 'button';
+  btn.removeAttribute('onclick');
+  if (btn.tagName.toLowerCase() === 'a') btn.setAttribute('href', '#');
+  oldBtn.parentNode.replaceChild(btn, oldBtn);
+
+  let printing = false;
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    if (printing) return;
+    printing = true;
+    const isTeacher = document.body.classList.contains('teacher-mode');
+    document.body.classList.toggle('print-teacher', isTeacher);
+    document.body.classList.toggle('print-student', !isTeacher);
+    requestAnimationFrame(function () {
+      window.print();
+      setTimeout(function () {
+        printing = false;
+        document.body.classList.remove('print-teacher','print-student');
+      }, 1200);
+    });
+  }, { capture: true, passive: false });
+});
+</script></body>
+</html>

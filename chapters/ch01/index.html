@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>1物質の構成と元素（原文完全HTML化）</title>
+<!-- 打印模式识别（学生/教师） -->
+<style>
+  /* 打印时严格按当前视图输出（避免 revert 兼容性问题） */
+  @media print {
+    /* 学生视图：隐藏教师内容 */
+    body:not(.teacher-mode) .teacher-only {
+      display: none !important;
+      visibility: hidden !important;
+    }
+    /* 教师视图：明确显示各种区块/列表 */
+    body.teacher-mode .teacher-only { visibility: visible !important; }
+    body.teacher-mode p.teacher-only,
+    body.teacher-mode div.teacher-only,
+    body.teacher-mode section.teacher-only,
+    body.teacher-mode article.teacher-only,
+    body.teacher-mode table.teacher-only,
+    body.teacher-mode ol.teacher-only,
+    body.teacher-mode ul.teacher-only {
+      display: block !important;
+    }
+    body.teacher-mode li.teacher-only {
+      display: list-item !important;
+    }
+  }
+  </style>
+<!-- 页面基础排版 -->
+<style>
+    body {font-family:"Hiragino Kaku Gothic ProN",sans-serif;max-width:900px;margin:0 auto;padding:32px;line-height:1.7;color:#111}
+    h1,h2,h3{margin:16px 0}
+    table{border-collapse:collapse;width:100%;margin:12px 0}
+    td,th{border:1px solid #ddd;padding:6px;vertical-align:top}
+    ol,ul{margin:0 0 12px 24px}
+  </style>
+<!-- 色彩主题与打印分页 -->
+<style>
+    :root{--ink:#0f172a;--muted:#475569;--border:#e2e8f0;--bg:#ffffff;--accent:#2563eb;}
+    html,body{background:var(--bg);color:var(--ink);}
+    body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans CJK JP",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    max-width:900px;margin:0 auto;padding:28px;line-height:1.85}
+    h1{font-size:clamp(24px,3.6vw,34px);margin:0 0 1rem;border-left:6px solid var(--accent);padding-left:12px}
+    h2,h3,h4{margin:1.1rem 0 0.5rem;border-left:4px solid var(--accent);padding-left:10px}
+    body>p:first-of-type{font-size:clamp(22px,3.2vw,30px);font-weight:700;margin:0 0 0.75rem;
+    border-left:6px solid var(--accent);padding-left:12px}
+    p{margin:0 0 0.6rem}
+    ol,ul{margin:0.2rem 0 0.9rem 1.4rem}
+    li{margin:0.25rem 0}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;border:1px solid var(--border)}
+    th,td{border:1px solid var(--border);padding:8px 10px;vertical-align:top}
+    tbody tr:nth-child(even){background:#fbfdff}
+    @media print{
+      @page{size:A4;margin:14mm}
+      body{padding:0}
+      body>p:first-of-type{border-color:#000}
+      h1,h2,h3,h4{border-color:#000}
+      .page-break-start{break-before:page;page-break-before:always;}
+      .page-break-end{break-after:page;page-break-after:always;}
+      .keep-with-next{break-after:avoid;page-break-after:avoid;}
+      .keep-together{break-inside:avoid;page-break-inside:avoid;}
+    }
+  </style>
+<link href="../../common/style_base.css" rel="stylesheet"/>
+<link href="../../common/ink.css" rel="stylesheet"/>
+<script defer="" src="../../common/script.js"></script>
+<script defer="" src="../../common/ink.js"></script>
+<style>
+    a { pointer-events:auto; }
+    .teacher-only{display:none;}
+    .teacher-mode .teacher-only{display:block;}
+    .teacher-underline{
+      text-decoration-line:underline;
+      text-decoration-style:wavy;
+      text-decoration-color:#0ea5e9;
+    }
+  </style>
+<script>
+  (function(){
+    // 清理历史持久化键
+    try{
+      var keys=['teacherMode','teacher.enabled','view-role','role','teacher_mode','ink:role'];
+      keys.forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
+    }catch(e){}
+    document.addEventListener('DOMContentLoaded',function(){
+      document.body.classList.remove('teacher-mode');
+    });
+  })();
+  </script>
+<style id="ultimate-print-override">
+/* —— 终极覆盖：保证按当前模式打印 —— */
+@media print {
+  body.print-student .teacher-only {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  body.print-teacher .teacher-only {
+    visibility: visible !important;
+    display: initial !important;
+  }
+  body.print-teacher p.teacher-only,
+  body.print-teacher div.teacher-only,
+  body.print-teacher section.teacher-only,
+  body.print-teacher article.teacher-only,
+  body.print-teacher table.teacher-only,
+  body.print-teacher ol.teacher-only,
+  body.print-teacher ul.teacher-only,
+  body.print-teacher figure.teacher-only {
+    display: block !important;
+  }
+  body.print-teacher li.teacher-only {
+    display: list-item !important;
+  }
+  body.print-teacher span.teacher-only,
+  body.print-teacher a.teacher-only,
+  body.print-teacher em.teacher-only,
+  body.print-teacher strong.teacher-only,
+  body.print-teacher code.teacher-only {
+    display: inline !important;
+  }
+}
+</style><script id="default-student-on-load">
+window.addEventListener("DOMContentLoaded",()=>{
+  document.body.classList.remove("teacher-mode");
+  document.body.classList.add("student");
+});
+</script><style id="line-height-img-tools">
+:root { --lh: 1.85; } /* 行距对应正文行高 */
+.h-3lines { height: auto; width: auto; max-height: calc(1em * var(--lh) * 3); }
+.h-6lines { height: auto; width: auto; max-height: calc(1em * var(--lh) * 6); }
+.fig img { max-width: 100%; height: auto; }
+</style></head>
+<body class="student">
+<header class="site">
+<div>
+<strong>
+     第1章：1物質の構成と元素
+    </strong>
+</div>
+<div>
+<button class="btn btn-primary" id="btn-teacher">
+     教师用
+    </button>
+<button class="btn" id="btn-print">
+     印刷
+    </button>
+</div>
+</header>
+<p>
+   物質の構成と元素
+  </p>
+<ol>
+<li>
+    元素
+    物質を構成する基本的な成分である。各元素は独自の性質を持ち、化学反応によって他の元素に変化することはない。<a href="#table-2">※元素の日本語表記</a></li>
+<li>
+    物質の構成と分類
+   </li>
+<ol>
+<li>
+     混合物：2種類以上の物質が混ざり合ったもの。物理的手段で成分を分離可能。
+     <br/>
+     例：空気、海水、塩酸、合金…
+    </li>
+<li>
+     純物質：1種類の物質からなるもの。
+    </li>
+<ol>
+<li>
+      単体：1種類の元素だけからなる純物質。
+      <br/>
+      例：酸素（O₂）、窒素（N₂）、ダイヤモンド（C）。
+     </li>
+<li>
+      化合物：2種類以上の元素が一定の割合で結合した純物質。
+      <br/>
+      例：水（H₂O）、二酸化炭素（CO₂）、塩化ナトリウム（NaCl）。
+     </li>
+</ol>
+<li class="">同素体：同じ元素からなる単体でありながら、同じ元素が異なる分子構造や結晶構造を持って存在する物質。
+     
+     炭素：ダイヤモンド（硬く透明）、黒鉛（軟らかく黒色）。
+     
+     酸素：酸素分子（O₂）、オゾン（O₃）。<span>　</span><a class="teacher-only teacher-underline" href="#practice-2">练习2</a></li>
+</ol>
+<li>
+    物質の分離方法
+   </li>
+<ol>
+<li>
+     ろ過
+     <br/>
+     目的：不溶性固体と液体の分離。
+     <br/>
+     方法：ろ紙やフィルターを用いて、液体を通過させて固体を捕捉。例：
+     <br/>
+     砂が混ざった水から砂を分離し、きれいな水を取り出す。
+    </li>
+<li>
+     蒸留
+     <br/>
+     目的：液体混合物から目的の液体を純粋に得る。
+     <br/>
+     方法：沸点の違いを利用して加熱し、蒸発・凝縮を経て分離。例：エタノール
+     <br/>
+     と⽔の混合物を分離する。
+    </li>
+<li>
+     分留
+     <br/>
+     目的：複数の液体が混ざった混合物を成分ごとに分離。
+     <br/>
+     方法：蒸留塔などを用いて、沸点の低い順に蒸発させて回収。例：
+     <br/>
+     原油の精製で、ガソリン、ナフサ、軽油、重油などを分けて取り出す。
+    </li>
+<li>
+     昇華
+     <br/>
+     目的：昇華性物質の分離・精製。
+     <br/>
+     方法：固体が直接気体になる性質を利用し、冷却して再び固体として回収。例：
+     <br/>
+     ヨウ素と塩化ナトリウムの混合物からヨウ素を分離。
+    </li>
+<li>
+     抽出
+     <br/>
+     目的：特定の成分を溶媒に溶かし出して分離。
+     <br/>
+     方法：溶解度の差を利用し、混合物に溶媒を加えて攪拌・分離。例：
+     <br/>
+     ヨウ素を溶かしたヨウ化カリウム⽔溶液からヨウ素を分離
+    </li>
+<li class="">再結晶
+     
+     目的：固体物質の精製。
+     
+     方法：溶媒に物質を溶かし、温度変化や溶媒の蒸発により結晶を析出。例：
+     
+     温度が上がると溶解度が大きく増加するとNaClを分離する。<span>　</span><a class="teacher-only teacher-underline" href="#practice-1">练习1</a></li>
+</ol>
+<li>
+    原子の構造
+   </li>
+<ol>
+<li>
+     原子の構造：
+    </li>
+<ol>
+<li>
+      原子：原子は中心にある原子核と、その周りを回る電子から構成されている。
+     </li>
+<li>
+      陽子：正の電荷を持ち、原子核内に存在。
+     </li>
+<li>
+      中性子：電荷を持たず、原子核内に存在。
+     </li>
+<li>
+      電子：負の電荷を持ち、原子核の周囲を回る。
+     </li>
+</ol>
+<li>
+     電気素量：電荷の最小単位。陽子の正電荷と電子の負電荷の大きさは等しい。約1.602 × 10<sup>-19</sup>クーロン。
+    </li>
+<li>
+     原子番号と質量数：
+     <br/>
+     原子番号（Z）：原子核中の陽子の数。元素の種類を決定。
+     <br/>
+     質量数（A）：原子核中の陽子数と中性子数の合計。
+    </li><figure class="fig keep-together" id="fig-101"><img alt="原子番号と質量数の図" class="h-3lines" src="assets/101.png"/><figcaption>図101　原子番号と質量数</figcaption></figure>
+<li>
+     原子量
+    </li>
+<li class="">同位体
+     
+     定義：同じ元素でありながら、中性子数が異なるため質量数が異なる原子。
+     
+     特徴：化学的性質はほぼ同じだが、物理的性質が異なる。<span>　</span><a class="teacher-only teacher-underline" href="#practice-4">练习4</a></li>
+<li>
+     電子配置
+    </li>
+<ol>
+<li>
+      電子殻：原⼦核に近い順に、K殻, L殻, M殻, N殻・・・ と呼ばれる
+     </li>
+<li>
+      最⼤収容数：各電子殻に収容できる電子の最大数は。
+     </li>
+<li>
+      最外殻電子：最も外側の電子殻に存在する電子。
+     </li>
+<li>
+      価電子：化学反応に関与する最外殻電子。元素の化学的性質を決定。
+     </li>
+<li>
+      貴ガスの電子配置：最外殻電子が満たされ、安定した電子配置。反応性が低い。(価電子数０)
+     </li>
+<li>
+      閉殻：最⼤数の電⼦が収容された電⼦殻。
+     </li>
+<li>
+      単原子分子：一個の原子が単独の分子として存在する。このような分子を単原子分子という。
+     </li>
+</ol>
+</ol>
+<li>
+    周期表
+   </li>
+<ol>
+<li>
+     構成
+    </li>
+<ol>
+<li>
+      族：周期表の縦の列。1族から18族まである。
+     </li>
+<li>
+      周期：周期表の横の行。第1周期から第7周期まである。同じ周期の原子は最外電子殻が同じである。
+     </li>
+</ol>
+<li>
+     元素の分類
+    </li>
+<ol>
+<li>
+      典型元素：1, 2, 13～18族の元素。原子番号が増えると、最外殻の電子数が増える。典型元素では、18族を除いて族番号の1の位の数が原子の価電子の数に相当する。そのため、族が同じ元素では化学的な性質が大変よく似ている。これを同族元素という。
+     </li>
+<li>
+      遷移元素：3～12族の元素。族が異なっていても性質に類似性がある。遷移元素はすべて金属元素である。
+     </li>
+<li>
+      アルカリ金属：水素を除く1族の元素のこと。反応性が大きく、常温で水と反応し、水素を発生する。1価の陽イオンになりやすい。
+     </li>
+<li>
+      アルカリ土類金属：２族の元素。
+     </li>
+<li>
+      ハロゲン：17族の元素。電子親和力が大きく、1価の陰イオンになりやすい。単体には酸化力がある。
+     </li>
+<li>
+      貴ガス：18族の元素。安定した元素であり、ほとんど化合物をつくらず、単原子分子として存在する。18族では最外殻電子を価電子とは呼ばない。
+     </li>
+<li>
+      金属元素：単体が金属光沢をもち、電気を通しやすく、熱を伝えやすい元素。陽性が強く、陽イオンになりやすい。
+     </li>
+<li>
+      非金属元素：陰性が強く、陰イオンになりやすいものが多い。
+     </li>
+</ol>
+</ol>
+<li>
+    イオン
+   </li>
+<ol>
+<li>
+     イオン：原子や分子が電子を失ったり得たりすることで電荷を持つようになった粒子。
+    </li>
+<li>
+     陽イオン（カチオン）：正の電荷を持ったイオン。
+     <br/>
+     陰イオン（アニオン）：負の電荷を持ったイオン。
+    </li>
+<li>
+     単原子イオン：1個の原⼦からなるイオン。
+     <br/>
+     多原⼦イオン：2個以上の原⼦からなる原⼦団のイオン。
+    </li>
+<li>
+     イオンの書き方
+    </li><figure class="fig keep-together" id="fig-102"><img alt="イオンの書き方の図" src="assets/102.png"/><figcaption>図102　イオンの書き方</figcaption></figure>
+<ol>
+<li>
+      イオンのでき方
+      <br/>
+      陽イオンは、原子が電子を失うことで生成。例：
+      <br/>
+      ナトリウム（Na）原子は、1つの電子を放出することで、希ガスと同じ電子配置を持つナトリウムイオンとなる。
+      <br/>
+      陽イオンの名称：単原子イオン：の
+      <br/>
+      元素名に「イオン」をつけて呼ぶ。ただし、同じ元素で価数が異なる場合、イオンの価数をローマ字で⽰す。多原子イオン：固有名
+      <br/>
+      アンモニウムイオン
+     </li>
+<li class="">陰イオンは、原子が電子を受け取ることで生成。例：
+      
+      塩素（Cl）原子は、1つの電子を得ることで、塩化物イオンとなる。
+      
+      陰イオンの名称：「〜化物イオン」「〜酸イオン」<span>　</span><a class="teacher-only teacher-underline" href="#practice-5">练习5</a></li><figure class="fig keep-together" id="fig-103"><img alt="イオンのでき方の図" src="assets/103.png"/><figcaption>図103　イオンのでき方</figcaption></figure>
+</ol>
+</ol>
+<p class="page-break-start">
+<br/>
+<p><strong>表１：よく使われるイオンとその名称</strong></p>
+</p></ol>
+<table>
+<tr>
+<td>
+     価数
+    </td>
+<td>
+     陽イオン
+    </td>
+<td>
+     イオン式
+    </td>
+<td>
+     価数
+    </td>
+<td>
+     陰イオン
+    </td>
+<td>
+     イオン式
+    </td>
+</tr>
+<tr>
+<td>
+     1価
+    </td>
+<td>
+     水素イオン
+     <br/>
+     ナトリウムイオン
+     <br/>
+     カリウムイオン
+     <br/>
+     銀イオン
+     <br/>
+     アンモニウムイオン
+    </td>
+<td>
+     H<sup>+</sup>
+<br/>
+     Na<sup>+</sup>
+<br/>
+     K<sup>+</sup>
+<br/>
+     Ag<sup>+</sup>
+<br/>
+     NH<sub>4</sub><sup>+</sup>
+</td>
+<td>
+     1価
+    </td>
+<td>
+     塩化物イオン
+     <br/>
+     臭化物イオン
+     <br/>
+     ヨウ化物イオン
+     <br/>
+     硝酸イオン
+     <br/>
+     酢酸イオン
+     <br/>
+     炭酸水素イオン
+     <br/>
+     水酸化物イオン
+    </td>
+<td>
+     Cl<sup>−</sup>
+<br/>
+     Br<sup>−</sup>
+<br/>
+     I<sup>−</sup>
+<br/>
+     NO<sub>3</sub><sup>−</sup>
+<br/>
+     CH3COO<sup>−</sup>
+<br/>
+     HCO<sub>3</sub><sup>−</sup>
+<br/>
+     OH<sup>−</sup>
+</td>
+</tr>
+<tr>
+<td>
+     2価
+    </td>
+<td>
+     マグネシウムイオン
+     <br/>
+     カルシウムイオン
+     <br/>
+     バリウムイオン
+     <br/>
+     鉄（II）イオン
+     <br/>
+     亜鉛イオン
+     <br/>
+     銅（II）イオン
+     <br/>
+     鉛（II）イオン
+    </td>
+<td>
+     Mg<sup>2+</sup>
+<br/>
+     Ca<sup>2+</sup>
+<br/>
+     Ba<sup>2+</sup>
+<br/>
+     Fe<sup>2+</sup>
+<br/>
+     Zn<sup>2+</sup>
+<br/>
+     Cu<sup>2+</sup>
+<br/>
+     Pb<sup>2+</sup>
+</td>
+<td>
+     2価
+    </td>
+<td>
+     酸化物イオン
+     <br/>
+     硫化物イオン
+     <br/>
+     硫酸イオン
+     <br/>
+     炭酸イオン
+    </td>
+<td>
+     O<sup>2-</sup>
+<br/>
+     S<sup>2-</sup>
+<br/>
+     SO<sub>4</sub><sup>2−</sup>
+<br/>
+     CO<sub>3</sub><sup>2−</sup>
+</td>
+</tr>
+<tr>
+<td>
+     3価
+    </td>
+<td>
+     アルミニウムイオン
+     <br/>
+     鉄（III）イオン
+    </td>
+<td>
+     Al<sup>3+</sup>
+<br/>
+     Fe<sup>3+</sup>
+</td>
+<td>
+     3価
+    </td>
+<td>
+     リン酸イオン
+    </td>
+<td>
+     PO<sub>4</sub><sup>3−</sup>
+</td>
+</tr>
+</table>
+<p>
+</p>
+<ol start="7">
+<li>
+    周期律と性質
+   </li>
+<ol>
+<li>
+     （第一）イオン化エネルギー
+     <br/>
+     原子から電子を一個取り去って、一価の陽イオンにするために必要なエネルギー。一般に、周期表の同じ周期内では、右に行くほどイオン化エネルギーが大きくなり、同じ族では、下に行くほど小さくなる（厳密には従わないものもある）。
+    </li>
+<li>
+     電子親和力
+     <br/>
+     原⼦が1個の電⼦を受け取って、1価の陰ｲｵﾝになるとき放出されるエネルギー。周期表の同じ周期内では、18族の元素を除き、右に行くほど電子親和力が大きくなり、同じ族では、上に行くほど大きくなる。
+    </li>
+<li>
+     原子半径
+     <br/>
+     最外電子殻が同じ原子どうしでは、原子番号が大きくなるほど原子半径は小さくなる。(例）Na &gt; Mg &gt; Al &gt; Si
+     <br/>
+     最外電子殻が異なる原子どうしでは、原子番号が大きいほど原子半径も大きくなる。(例）Li &lt; Na &lt; K
+    </li>
+<li class="">イオン半径
+     
+     同じ希ガス型の電子配置をもつイオンどうしでは、原子番号が大きいほどイオン半径は小さくなる。（例）O²⁻ &gt; F⁻ &gt; Na⁺ &gt; Mg²⁺
+     
+     最外電子殻が異なるイオンどうしでは、原子番号が大きいほどイオン半径も大きくなる。(例）F⁻ &lt; Cl⁻ &lt; Br⁻ &lt; I⁻<span>　</span><a class="teacher-only teacher-underline" href="#practice-8">练习8</a></li>
+</ol>
+</ol>
+<p>
+<br/>
+</p>
+<figure class="fig keep-together" id="fig-104"><img alt="周期表の図" src="assets/104.png"/><figcaption>図104　周期表</figcaption></figure><p class="keep-with-next" id="table-2">
+   表２：高校化学で頻出する元素
+  </p>
+<table class="table2-block">
+<tr>
+<td>
+     原子番号
+    </td>
+<td>
+     元素記号
+    </td>
+<td>
+     元素名称
+    </td>
+<td>
+     原子番号
+    </td>
+<td>
+     元素記号
+    </td>
+<td>
+     元素名称
+    </td>
+</tr>
+<tr>
+<td>
+     1
+    </td>
+<td>
+     H
+    </td>
+<td>
+     水素
+    </td>
+<td>
+     22
+    </td>
+<td>
+     Ti
+    </td>
+<td>
+     チタン
+    </td>
+</tr>
+<tr>
+<td>
+     2
+    </td>
+<td>
+     He
+    </td>
+<td>
+     ヘリウム
+    </td>
+<td>
+     23
+    </td>
+<td>
+     V
+    </td>
+<td>
+     バナジウム
+    </td>
+</tr>
+<tr>
+<td>
+     3
+    </td>
+<td>
+     Li
+    </td>
+<td>
+     リチウム
+    </td>
+<td>
+     24
+    </td>
+<td>
+     Cr
+    </td>
+<td>
+     クロム
+    </td>
+</tr>
+<tr>
+<td>
+     4
+    </td>
+<td>
+     Be
+    </td>
+<td>
+     ベリリウム
+    </td>
+<td>
+     25
+    </td>
+<td>
+     Mn
+    </td>
+<td>
+     マンガン
+    </td>
+</tr>
+<tr>
+<td>
+     5
+    </td>
+<td>
+     B
+    </td>
+<td>
+     ホウ素
+    </td>
+<td>
+     26
+    </td>
+<td>
+     Fe
+    </td>
+<td>
+     鉄
+    </td>
+</tr>
+<tr>
+<td>
+     6
+    </td>
+<td>
+     C
+    </td>
+<td>
+     炭素
+    </td>
+<td>
+     28
+    </td>
+<td>
+     Ni
+    </td>
+<td>
+     ニッケル
+    </td>
+</tr>
+<tr>
+<td>
+     7
+    </td>
+<td>
+     N
+    </td>
+<td>
+     窒素
+    </td>
+<td>
+     29
+    </td>
+<td>
+     Cu
+    </td>
+<td>
+     銅
+    </td>
+</tr>
+<tr>
+<td>
+     8
+    </td>
+<td>
+     O
+    </td>
+<td>
+     酸素
+    </td>
+<td>
+     30
+    </td>
+<td>
+     Zn
+    </td>
+<td>
+     亜鉛
+    </td>
+</tr>
+<tr>
+<td>
+     9
+    </td>
+<td>
+     F
+    </td>
+<td>
+     フッ素
+    </td>
+<td>
+     35
+    </td>
+<td>
+     Br
+    </td>
+<td>
+     臭素
+    </td>
+</tr>
+<tr>
+<td>
+     10
+    </td>
+<td>
+     Ne
+    </td>
+<td>
+     ネオン
+    </td>
+<td>
+     47
+    </td>
+<td>
+     Ag
+    </td>
+<td>
+     銀
+    </td>
+</tr>
+<tr>
+<td>
+     11
+    </td>
+<td>
+     Na
+    </td>
+<td>
+     ナトリウム
+    </td>
+<td>
+     50
+    </td>
+<td>
+     Sn
+    </td>
+<td>
+     スズ
+    </td>
+</tr>
+<tr>
+<td>
+     12
+    </td>
+<td>
+     Mg
+    </td>
+<td>
+     マグネシウム
+    </td>
+<td>
+     53
+    </td>
+<td>
+     I
+    </td>
+<td>
+     ヨウ素
+    </td>
+</tr>
+<tr>
+<td>
+     13
+    </td>
+<td>
+     Al
+    </td>
+<td>
+     アルミニウム
+    </td>
+<td>
+     55
+    </td>
+<td>
+     Cs
+    </td>
+<td>
+     セシウム
+    </td>
+</tr>
+<tr>
+<td>
+     14
+    </td>
+<td>
+     Si
+    </td>
+<td>
+     ケイ素
+    </td>
+<td>
+     56
+    </td>
+<td>
+     Ba
+    </td>
+<td>
+     バリウム
+    </td>
+</tr>
+<tr>
+<td>
+     15
+    </td>
+<td>
+     P
+    </td>
+<td>
+     リン
+    </td>
+<td>
+     78
+    </td>
+<td>
+     Pt
+    </td>
+<td>
+     白金
+    </td>
+</tr>
+<tr>
+<td>
+     16
+    </td>
+<td>
+     S
+    </td>
+<td>
+     硫黄
+    </td>
+<td>
+     79
+    </td>
+<td>
+     Au
+    </td>
+<td>
+     金
+    </td>
+</tr>
+<tr>
+<td>
+     17
+    </td>
+<td>
+     Cl
+    </td>
+<td>
+     塩素
+    </td>
+<td>
+     80
+    </td>
+<td>
+     Hg
+    </td>
+<td>
+     水銀
+    </td>
+</tr>
+<tr>
+<td>
+     18
+    </td>
+<td>
+     Ar
+    </td>
+<td>
+     アルゴン
+    </td>
+<td>
+     82
+    </td>
+<td>
+     Pb
+    </td>
+<td>
+     鉛
+    </td>
+</tr>
+<tr>
+<td>
+     19
+    </td>
+<td>
+     K
+    </td>
+<td>
+     カリウム
+    </td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+     20
+    </td>
+<td>
+     Ca
+    </td>
+<td>
+     カルシウム
+    </td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+</table>
+<p>
+</p>
+<p>
+<br/>
+</p>
+<p class="">
+   &lt;おまけ&gt;周期表と電子配置（試験範囲外）
+  </p>
+  <p>
+   Kの原子番号は19なので、電子数は19個である。これを内側の電子殻から詰めていくと、K殻に2個、L殻に8個、M殻に9個入るはずだが、実際はK殻に2個、L殻に8個、M殻に8個、N殻に1個入る。M殻には18個まで電子が入ることができるはずなのに、9個目の電子はM殻に入らず、N殻に入っているのはなぜか。
+  </p>
+<p>
+   実はそれぞれの電子殻では、すべての電子が同じ入りやすさ（エネルギーの大きさ）ではなく、電子殻の中でも電子の入りやすい場所と、入りにくい場所（エネルギーの小さい場所と大きい場所）がある。これを軌道という。K殻には1sと呼ばれる軌道があり、L殻には2s、2p、M殻には3s、3p、3d、N殻には4s、4p、4d、4fの軌道がある。s軌道には2個の電子が、p軌道には6個の電子が、d軌道には10個の電子が、f軌道には14個の電子が入る。それぞれの軌道とそのエネルギーの大きさを下の図に示す。
+  </p>
+<p>
+   電子はエネルギーの小さい軌道から入っていく。原子番号18番のアルゴンまでは、K殻→L殻→M殻の順番に電子が満たされていくが、19個目の電子はM殻の3d軌道よりエネルギーの小さいN殻の4s軌道に先に入ってしまう。したがって、Kの電子配置はK(2)L(8)M(8)N(1)となる。
+  </p>
+<p>
+   さらに続く原子番号20のカルシウムはどうだろう。20番目の電子もやはり、N殻の4s軌道に入るのでその電子配置はK(2)L(8)M(8)N(2)となる。では、原子番号21のスカンジウムはどうだろうか。図を見るとN殻の4p軌道より、M殻の3d軌道の方がエネルギーが低いので、21番目の電子は、再びM殻（3d軌道）に入る。ここで初めて、電子が最外殻以外の電子殻に入る原子が現れる。これが、遷移元素である。
+  </p>
+<figure class="fig keep-together" id="fig-105"><img alt="軌道のエネルギー順序" class="h-6lines" src="assets/105.png"/><figcaption>図105　軌道のエネルギー順序</figcaption></figure>
+
+<p class="page-break-start" id="practice-1">
+   練習１（H28-2-4）塩化ナトリウム NaCl とヨウ素 I2 の混合物を分離するのに適当な方法が，次の（a）～（e）の中に二つある。それらの組み合わせとして正しいものを，下の①～⑥の中から一つ選びなさい。
+  </p>
+<p>
+</p>
+<table>
+<tr>
+<td>
+     （a）蒸留 
+    </td>
+<td>
+     （b）昇華 
+    </td>
+<td>
+     （c）再結晶 
+    </td>
+<td>
+     （d）抽出 
+    </td>
+<td>
+     （e）分留
+    </td>
+</tr>
+<tr>
+<td>
+     ① a，b
+     <br/>
+     ⑥  d，e
+    </td>
+<td>
+     ② a，e
+    </td>
+<td>
+     ③ b，c
+    </td>
+<td>
+     ④ b，d
+    </td>
+<td>
+     ⑤ c，d
+    </td>
+</tr>
+</table>
+<p class="" id="practice-2">
+   練習２（H27-1-2）次表の物質の組み合わせ①～⑥のうち，互いに同素体であるものを一つ選びなさい。
+  </p>
+<table>
+<tr>
+<td>
+     ①
+    </td>
+<td>
+     ダイヤモンド
+    </td>
+<td>
+     ケイ素
+    </td>
+</tr>
+<tr>
+<td>
+     ②
+    </td>
+<td>
+     オゾン
+    </td>
+<td>
+     二酸化炭素
+    </td>
+</tr>
+<tr>
+<td>
+     ③
+    </td>
+<td>
+     ゴム状硫黄
+    </td>
+<td>
+     ゴム
+    </td>
+</tr>
+<tr>
+<td>
+     ④
+    </td>
+<td>
+     フラーレン
+    </td>
+<td>
+     黒鉛
+    </td>
+</tr>
+<tr>
+<td>
+     ⑤
+    </td>
+<td>
+     リン
+    </td>
+<td>
+     窒素
+    </td>
+</tr>
+<tr>
+<td>
+     ⑥
+    </td>
+<td>
+     氷
+    </td>
+<td>
+     水
+    </td>
+</tr>
+</table>
+<p class="" id="practice-3">
+   練習３（H22-2-3）同素体に関する次の記述（a）～（d）のうち，正しいものの組み合わせを，下の①～⑥の中から一つ選びなさい。（a）  同素体は同じ元素からなるので，その性質に違いはない。
+   <br/>
+   （b）  水素と重水素は互いに同素体である。
+   <br/>
+   （c）  赤ﾘﾝと黄ﾘﾝは互いに同素体である。
+   <br/>
+   （d）  水と氷は状態の違いであり，互いに同素体ではない。
+   <br/>
+</p>
+
+     ① a，b  ②  a，c  ③  a，d  ④  b，c  ⑤  b，d ⑥  c，d
+ 
+<p class="" id="practice-4">
+   練習４（H23-2-1） 原子や電子に関する次の記述（a）～（d）のうち，正しいものの組み合わせを，下の①～⑥の中から一つ選びなさい。 （a）  原子核は電子，中性子，陽子で構成されている。
+   <br/>
+   （b）  原子核に含まれる陽子の数をその原子の原子番号という。
+   <br/>
+   （c）  電子は負の電荷をもち，その質量は中性子に比べてきわめて小さい。
+   <br/>
+   （d）  原子番号が同じで，質量数の異なる原子を互いに同素体という。
+   <br/>
+</p>
+
+
+     ① a，b  ②  a，c  ③  a，d  ④  b，c  ⑤  b，d ⑥  c，d
+
+
+<p class="" id="practice-5">
+   練習５(H25-1-1)次の原子またはイオンの組み合わせ①～⑥のうち，電子配置が互いに同じであるものを一つ選びなさい。
+  </p>
+<table>
+<tr>
+<td>
+     ① Ar，Mg<sup>2+</sup>
+</td>
+<td>
+     ② F，Mg<sup>2+</sup>
+</td>
+<td>
+     ③ He，Na<sup>+</sup>
+</td>
+</tr>
+<tr>
+<td>
+     ④ K<sup>+</sup>，S<sup>2−</sup>
+</td>
+<td>
+     ⑤ Li<sup>+</sup>，F－
+    </td>
+<td>
+     ⑥ Na<sup>+</sup>，Cl－
+    </td>
+</tr>
+</table>
+<p class="" id="practice-6">
+   練習６(H29-1-2)周期表の第 3 周期までの元素やそのｲｵﾝに関する次の記述（a）～（e）のうち，正しいものが二つある。それらの組み合わせを，下の①～⑥の中から一つ選びなさい。
+  </p>
+<p>
+   （a）  炭素 C とケイ素 Si は L 殻の電子数が等しい。
+   <br/>
+   （b）  フッ化物イオンF－とアルミニウムイオンAl3＋の電子数は互いに等しい。
+   <br/>
+   （c）  リチウム Li はヘリウム He よりもイオン化エネルギー（第一イオン化エネルギー）が大きい。
+   <br/>
+   （d）  フッ素 F は酸素 O よりも電子親和力が大きい。
+   <br/>
+   （e） マグネシウムMg2＋は酸化物イオン O<sup>2−</sup>よりイオン半径が大きい。
+   <br/>
+<br/>
+   ①  a，b  ②  a，c  ③  a，e  ④  b，d  ⑤  c，d ⑥  d，e
+  </p>
+<p class="" id="practice-7">
+   練習7(H23-1-2)周期表に関する次の記述①～⑤のうち，正しいものを一つ選びなさい。
+  </p>
+<p>
+   ①  周期表中の元素数は，100 以下である。
+   <br/>
+   ②  金属元素は，どの族にも含まれている。
+   <br/>
+   ③  Li からは始まる周期の元素では，その原子の電子配置の最外殻は M 殻である。
+   <br/>
+   ④  同族の典型元素は，互いに価電子の数が等しい。
+   <br/>
+   ⑤  典型元素は，すべて非金属元素である。
+  </p>
+<p class="page-break-end keep-with-next" id="practice-8">
+   練習8(H22-2-2)イオン化エネルギー（第一イオン化エネルギー）に関する記述として最も適当なものを，次の①～④の中から一つ選びなさい。
+  </p>
+<p class="keep-together">
+   ①  周期表で同じ族の元素は，イオン化エネルギーが互いに等しい。
+   <br/>
+   ②  同じ周期の元素は，イオン化エネルギーが等しい。
+   <br/>
+   ③  同じ周期の典型元素では，1 族の元素より 18 族の元素のほうがイオン化エネルギーは小さい。
+   <br/>
+   ④  同じ周期の典型元素では，1 族の元素より 18 族の元素のほうがイオン化エネルギーは大きい。
+  </p>
+<p class="page-break-start">
+<br/>
+   クイズ    氏名___________________ 
+  </p>
+<ol>
+<li>
+    1種類の物質だけを含む物質を（　）という。
+   </li>
+<li>
+    2種類以上の物質を含む物質を（　）という。
+   </li>
+<li>
+    1種類の元素だけでできる物質を（　）という。
+   </li>
+<li>
+    2種類以上の元素からできる物質を（　）という。
+   </li>
+<li>
+    原子は、中心に位置する（　）と、その周りを高速で飛び回る電子からなる。
+   </li>
+<li>
+    原子核は正の電荷をもつ（　）と、電気的に中性な中性子からできている。
+   </li>
+<li>
+    質量数は、陽子と（　）の数の和である。
+   </li>
+<li>
+    原子番号は、陽子の数で、（　）の数と等しい。
+   </li>
+<li>
+    原子から電子を1個取り去って、1価の陽イオンになるときに必要なエネルギーを（　）という。
+   </li>
+<li>
+    原子が電子を1個受け取って、1価の陰イオンになるときに放出するエネルギーを（　）という。
+   </li>
+</ol>
+<ol class="teacher-only teacher-underline">
+<li>
+    純物質
+   </li>
+<li>
+    混合物
+   </li>
+<li>
+    単体
+   </li>
+<li>
+    化合物
+   </li>
+<li>
+    原子核
+   </li>
+<li>
+    陽子
+   </li>
+<li>
+    中性子
+   </li>
+<li>
+    電子
+   </li>
+<li>
+    イオン化エネルギー
+   </li>
+<li>
+    電子親和力
+   </li>
+</ol>
+<p>
+</p>
+<script id="sanitize-print-button">
+document.addEventListener('DOMContentLoaded', function () {
+  var btnTeacher = document.getElementById('btn-teacher');
+  if (btnTeacher) {
+    btnTeacher.addEventListener('click', function(){
+      var toTeacher = !document.body.classList.contains('teacher-mode');
+      document.body.classList.toggle('teacher-mode', toTeacher);
+      document.body.classList.toggle('student', !toTeacher);
+    });
+  }
+
+  var oldBtn = document.getElementById('btn-print');
+  if (!oldBtn) return;
+
+  var btn = oldBtn.cloneNode(true);
+  btn.type = 'button';
+  btn.removeAttribute('onclick');
+  if (btn.tagName.toLowerCase() === 'a') btn.setAttribute('href', '#');
+  oldBtn.parentNode.replaceChild(btn, oldBtn);
+
+  let printing = false;
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    if (printing) return;
+    printing = true;
+    const isTeacher = document.body.classList.contains('teacher-mode');
+    document.body.classList.toggle('print-teacher', isTeacher);
+    document.body.classList.toggle('print-student', !isTeacher);
+    requestAnimationFrame(function () {
+      window.print();
+      setTimeout(function () {
+        printing = false;
+        document.body.classList.remove('print-teacher','print-student');
+      }, 1200);
+    });
+  }, { capture: true, passive: false });
+});
+</script></body>
+</html>

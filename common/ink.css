@@ -1,0 +1,57 @@
+
+/* ink.css — HIGH PERFORMANCE viewport canvas; strokes persist and scroll with page by redraw */
+#ink-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9998;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  font-weight: 700;
+  cursor: pointer;
+}
+#ink-panel {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  z-index: 9999;
+  display: none;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  padding: 10px;
+  backdrop-filter: saturate(180%) blur(8px);
+}
+#ink-panel.show { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+#ink-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  display: none;
+  touch-action: none;
+  pointer-events: none; /* enabled when active */
+}
+.ink-btn {
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.ink-btn.primary { background: #2563eb; color:#fff; border:none; }
+.ink-color { width: 22px; height: 22px; border-radius: 50%; border:1px solid #cbd5e1; cursor:pointer; }
+.ink-color.active { outline: 2px solid #2563eb; }
+.ink-sep { width:1px; height:22px; background:#e2e8f0; margin:0 6px; }
+#ink-width { width: 110px; }
+/* Print include strokes: we composite a full-page image before print */
+@media print {
+  #ink-panel, #ink-toggle { display: none !important; }
+  /* canvas will be swapped to a full-page bitmap via JS just before print */
+}
