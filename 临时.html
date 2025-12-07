@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>有志学苑 - 工资明细查询</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary: #1f6feb;
+      --primary-light: #e6f0ff;
+      --bg: #f3f4f8;
+      --card-bg: #ffffff;
+      --border: #d0d7e2;
+      --text-main: #1f2933;
+      --text-muted: #6b7280;
+      --danger: #e02424;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部栏 */
+    .topbar {
+      background: linear-gradient(135deg, #0f172a, #1f2937);
+      color: #f9fafb;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 30%, #6ee7b7, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-cn {
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      font-size: 15px;
+    }
+
+    .brand-en {
+      font-size: 11px;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+    }
+
+    .user-info span {
+      opacity: 0.9;
+    }
+
+    /* 语言切换 */
+    .lang-switch {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .lang-btn {
+      padding: 4px 10px;
+      font-size: 11px;
+      cursor: default;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .lang-btn + .lang-btn {
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .lang-btn.active {
+      background: #f9fafb;
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .lang-badge {
+      font-size: 9px;
+      padding: 1px 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.12);
+    }
+
+    /* 主体 */
+    .main {
+      flex: 1;
+      padding: 24px 16px 40px;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .breadcrumbs {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .breadcrumbs span + span::before {
+      content: "›";
+      margin: 0 4px;
+      color: #9ca3af;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .page-title-group h1 {
+      font-size: 22px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-title-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid #c3d4ff;
+    }
+
+    .page-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .period-tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #e5f3ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      white-space: nowrap;
+    }
+
+    /* 网格布局 */
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .card-header {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .badge-soft {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* 左侧：员工信息 */
+    .info-list {
+      list-style: none;
+      font-size: 13px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dashed #e5e7eb;
+      gap: 8px;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .info-value {
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .info-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* 右侧：工资概况 */
+    .summary-amount {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .summary-amount small {
+      font-size: 13px;
+      font-weight: 500;
+      margin-left: 6px;
+      color: var(--text-muted);
+    }
+
+    .summary-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .tag-chip {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .tag-chip strong {
+      color: #111827;
+      margin-left: 4px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .summary-pill {
+      background: #f9fafb;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+    }
+
+    .summary-pill-label {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .summary-pill-value {
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .summary-pill-value.negative {
+      color: var(--danger);
+    }
+
+    .summary-footer {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-top: 1px dashed #e5e7eb;
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+
+    /* 工资明细表 */
+    .table-card {
+      margin-top: 14px;
+    }
+
+    .salary-table-wrapper {
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    thead {
+      background: #f3f4ff;
+    }
+
+    thead th {
+      padding: 8px 10px;
+      font-weight: 600;
+      text-align: left;
+      border-bottom: 1px solid #d1d5db;
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #f0f2f5;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #fafbff;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .td-label {
+      color: #4b5563;
+    }
+
+    .td-amount {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .td-note {
+      color: #9ca3af;
+      font-size: 11px;
+    }
+
+    .row-section-header td {
+      background: #eef2ff;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .row-total td {
+      background: #fef9c3;
+      font-weight: 700;
+    }
+
+    .row-total .td-amount {
+      color: #92400e;
+    }
+
+    /* 底部备注 */
+    .page-footer-note {
+      margin-top: 16px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .stamp {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 6px 10px;
+      background: #f9fafb;
+      font-size: 11px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .stamp-label {
+      color: #6b7280;
+    }
+
+    .stamp-value {
+      font-weight: 600;
+    }
+
+    /* 自适应 */
+    @media (max-width: 768px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .top-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .main {
+        padding: 18px 12px 28px;
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .salary-table-wrapper {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 540px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .summary-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">志</div>
+      <div class="brand-text">
+        <div class="brand-cn">有志学苑</div>
+        <div class="brand-en">YOUZHI ACADEMY</div>
+      </div>
+    </div>
+    <div class="top-right">
+      <div class="user-info">
+        <span>当前登录账号：<strong>教师工号 20251234</strong></span>
+      </div>
+      <div class="lang-switch" aria-label="Language switch (visual only)">
+        <button class="lang-btn active">
+          <span class="lang-badge">中</span> 中文
+        </button>
+        <button class="lang-btn">
+          <span class="lang-badge">EN</span> English
+        </button>
+        <button class="lang-btn">
+          <span class="lang-badge">日</span> 日本語
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主体内容 -->
+  <main class="main">
+    <div class="container">
+      <div class="breadcrumbs">
+        <span>首页</span>
+        <span>教职工服务</span>
+        <span>工资查询</span>
+      </div>
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>
+            工资明细查询
+            <span class="page-title-tag">收入标准：人民币 CNY</span>
+          </h1>
+          <div class="page-subtitle">
+            以下为<span>有志学苑</span>教职工工资信息，仅供本人核对使用。
+          </div>
+        </div>
+        <div class="period-tag">
+          查询月份：上月（2025年11月度）
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- 左侧：员工信息 -->
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">员工基本信息</div>
+              <div class="card-subtitle">Employee Profile</div>
+            </div>
+            <span class="badge-soft">机密 · CONFIDENTIAL</span>
+          </div>
+          <ul class="info-list">
+            <li class="info-row">
+              <span class="info-label">姓名</span>
+              <span class="info-value">王梓同</span>
+            </li>
+            <li class="info-row">
+              <span class="info-label">工号</span>
+              <span class="info-value">YZ-2025-001</span>
+            </li>
+            <li class="info-row">
+              <span class="info-label">所属机构</span>
+              <span class="info-value">有志学苑 · 理科部</span>
+            </li>
+            <li class="info-row">
+              <span class="info-label">岗位</span>
+              <span class="info-value">化学讲师</span>
+            </li>
+            <li class="info-row">
+              <span class="info-label">计薪方式</span>
+              <span class="info-value">时薪制 / Hourly</span>
+            </li>
+            <li class="info-row">
+              <span class="info-label">计薪货币</span>
+              <span class="info-value">人民币 CNY</span>
+            </li>
+            <li class="info-row">
+              <span class="info-label">时薪标准</span>
+              <span class="info-value">¥450 / 小时</span>
+            </li>
+          </ul>
+          <p class="info-note">
+            如对金额有疑问，请联系有志学苑薪酬中心进行核对。
+          </p>
+        </section>
+
+        <!-- 右侧：工资概况 + 明细 -->
+        <section>
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">本月工资概况</div>
+                <div class="card-subtitle">Monthly Payroll Summary</div>
+              </div>
+            </div>
+
+            <div class="summary-amount">
+              ¥84,000.00
+              <small>人民币 · 税前合计</small>
+            </div>
+
+            <div class="summary-tags">
+              <span class="tag-chip">计薪月份<strong>2025年11月</strong></span>
+              <span class="tag-chip">计薪工时<strong> 187 小时</strong></span>
+              <span class="tag-chip">时薪标准<strong>¥450 / 小时</strong></span>
+              <span class="tag-chip">工资币种<strong>CNY</strong></span>
+            </div>
+
+            <div class="summary-grid">
+              <div class="summary-pill">
+                <div class="summary-pill-label">税前收入合计</div>
+                <div class="summary-pill-value">¥84,000.00</div>
+              </div>
+              <div class="summary-pill">
+                <div class="summary-pill-label">扣除合计（税费等）</div>
+                <div class="summary-pill-value negative">-¥6,750.00</div>
+              </div>
+              <div class="summary-pill">
+                <div class="summary-pill-label">实发金额（转账）</div>
+                <div class="summary-pill-value">¥77,250.00</div>
+              </div>
+            </div>
+
+            <div class="summary-footer">
+              <span>预计发放日期：2025-12-10（工作日）</span>
+              <span>转账银行：工商银行 北京分行（尾号 0628）</span>
+            </div>
+          </div>
+
+          <!-- 工资明细表 -->
+          <div class="card table-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">工资构成明细</div>
+                <div class="card-subtitle">Payroll Breakdown</div>
+              </div>
+            </div>
+
+            <div class="salary-table-wrapper">
+              <table>
+                <thead>
+                <tr>
+                  <th style="width: 28%;">项目</th>
+                  <th style="width: 18%;">金额（CNY）</th>
+                  <th style="width: 22%;">类别</th>
+                  <th>说明 / 备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="row-section-header">
+                  <td colspan="4">一、收入项目（税前）</td>
+                </tr>
+                <tr>
+                  <td class="td-label">基本工资（时薪制）</td>
+                  <td class="td-amount">¥83,696.00</td>
+                  <td>应发工资</td>
+                  <td class="td-note">按实际授课与备课工时计算，时薪 ¥450</td>
+                </tr>
+                <tr>
+                  <td class="td-label">课时补贴</td>
+                  <td class="td-amount">¥304.00</td>
+                  <td>津贴 / Allowance</td>
+                  <td class="td-note">根据课时安排核发</td>
+                </tr>
+                <tr>
+                  <td class="td-label">其他补助</td>
+                  <td class="td-amount">¥0.00</td>
+                  <td>补助</td>
+                  <td class="td-note">交通 / 餐补等其他补助</td>
+                </tr>
+                <tr class="row-total">
+                  <td class="td-label">税前收入小计</td>
+                  <td class="td-amount">¥84,000.00</td>
+                  <td>小计</td>
+                  <td class="td-note">税前工资总额</td>
+                </tr>
+
+                <tr class="row-section-header">
+                  <td colspan="4">二、扣除项目</td>
+                </tr>
+                <tr>
+                  <td class="td-label">代扣个人所得税</td>
+                  <td class="td-amount">-¥4,378.00</td>
+                  <td>税费</td>
+                  <td class="td-note">按国家相关税法规定代扣</td>
+                </tr>
+                <tr>
+                  <td class="td-label">社会保险及公积金</td>
+                  <td class="td-amount">-¥1,922.00</td>
+                  <td>五险一金</td>
+                  <td class="td-note">含养老、医疗、失业等个人缴纳部分</td>
+                </tr>
+                <tr>
+                  <td class="td-label">其他扣款</td>
+                  <td class="td-amount">-¥450.00</td>
+                  <td>其他</td>
+                  <td class="td-note">包括系统服务等相关扣款</td>
+                </tr>
+                <tr class="row-total">
+                  <td class="td-label">扣除合计</td>
+                  <td class="td-amount">-¥6,750.00</td>
+                  <td>小计</td>
+                  <td class="td-note">各类应扣项目合计</td>
+                </tr>
+
+                <tr class="row-section-header">
+                  <td colspan="4">三、实发工资</td>
+                </tr>
+                <tr class="row-total">
+                  <td class="td-label">实发金额（转账到本人账户）</td>
+                  <td class="td-amount">¥77,250.00</td>
+                  <td>实发 / Net Pay</td>
+                  <td class="td-note">税前 ¥84,000.00 − 扣除 ¥6,750.00</td>
+                </tr>
+                <tr>
+                  <td class="td-label">发放方式</td>
+                  <td class="td-amount">银行转账</td>
+                  <td>支付渠道</td>
+                  <td class="td-note">户名：王梓同，开户行：工行北京分行，账号尾号 0628</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 底部提示 -->
+          <div class="page-footer-note">
+            <div>
+              本页面显示金额为系统当前记录，如与实际到账存在差异，请以银行转账记录为准。
+            </div>
+            <div class="stamp">
+              <span class="stamp-label">有志学苑 薪酬中心</span>
+              <span class="stamp-value">系统自动生成</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
