@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>私費外国人留学生特別入試問題（解答付き）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --text: #1f1f1f;
+      --muted: #4a4a4a;
+      --accent: #0f4c81;
+      --border: #d5d7de;
+      --bg: #f7f9fc;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 32px auto;
+      max-width: 960px;
+      padding: 0 24px 48px;
+      font-family: "Noto Sans JP", "Hiragino Sans", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.7;
+      background: radial-gradient(circle at 20% 20%, rgba(15,76,129,0.08), transparent 32%), var(--bg);
+    }
+    h1, h2, h3 { margin: 0; font-weight: 700; color: var(--accent); }
+    h1 { font-size: 1.9rem; letter-spacing: 0.02em; }
+    h2 { font-size: 1.3rem; margin-bottom: 0.4rem; }
+    p { margin: 0.35rem 0; }
+    ul { margin: 0.35rem 0 0.35rem 1.25rem; }
+    .page {
+      background: var(--card);
+      padding: 28px 32px 36px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+      page-break-after: always;
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      border-left: 6px solid rgba(15, 76, 129, 0.2);
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(15,76,129,0.12), rgba(255,255,255,0.88));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 26px;
+      margin-bottom: 12px;
+      box-shadow: 0 12px 26px rgba(15, 76, 129, 0.08);
+    }
+    .meta { color: var(--muted); font-size: 0.95rem; }
+    .divider { border-top: 1px dashed var(--border); margin: 8px 0; }
+    .problem-number { font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; color: var(--accent); }
+    .problem-body { font-size: 1.02rem; }
+    .math-display { margin: 0.4rem 0; }
+    .answer { border-left: 3px solid var(--accent); padding-left: 10px; background: #f5f8ff; border-radius: 8px; }
+    .badge { display: inline-block; padding: 6px 12px; border-radius: 999px; background: #0f4c81; color: #fff; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.02em; }
+    .toc { margin-top: 14px; padding: 14px 18px; border: 1px solid var(--border); border-radius: 12px; background: #fff; box-shadow: 0 8px 18px rgba(0,0,0,0.05); }
+    .toc h3 { color: var(--accent); margin: 0 0 8px; font-size: 1.05rem; }
+    .toc ul { margin: 0; padding: 0; list-style: none; }
+    .toc li { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; font-weight: 600; color: var(--text); }
+    .toc .dots { flex: 1; border-bottom: 1px dotted var(--border); margin: 0 8px; height: 1px; }
+    .toc .page-no { color: var(--accent); font-variant-numeric: tabular-nums; }
+    .anchor { font-size: 0.9rem; color: var(--muted); }
+    .page::after {
+      counter-increment: page;
+      content: "-" counter(page) "-";
+      position: absolute;
+      bottom: 16px;
+      right: 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    body { counter-reset: page; }
+    body.student::before{
+      content: "無断転載禁止\A- 王梓同 -";
+      white-space: pre;
+      position:fixed;
+      top:45%;left:50%;
+      transform:translate(-50%,-50%) rotate(-30deg);
+      font-size:96px;
+      font-weight:900;
+      letter-spacing:8px;
+      color:rgba(0,0,0,0.06);
+      pointer-events:none;
+      z-index:9999;
+    }
+    @media print {
+      @page { size: A4; margin: 15mm; }
+      body { background: #fff; margin: 0; padding: 0; }
+      .page { box-shadow: none; border-radius: 0; border: none; page-break-after: always; width: 210mm; min-height: 297mm; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+</head>
+<body class="student">
+  <section class="page">
+    <div class="hero">
+      <span class="badge">解答付き</span>
+      <h1 style="margin-top: 10px;">東京科学大学理工学系 私費外国人留学生特別入試問題（統合版）</h1>
+      <div class="meta">解答を順次追加予定。各年度にジャンプできます。</div>
+      <div class="meta">制作：Z. T. WANG（2025）</div>
+    </div>
+    <div class="toc">
+      <h3>目次 / Contents</h3>
+      <ul>
+        <li><a href="#y25">平成25年度</a><span class="dots"></span><span class="anchor">p.2–4</span></li>
+        <li><a href="#y26">平成26年度</a><span class="dots"></span><span class="anchor">p.5–7</span></li>
+        <li><a href="#y27">平成27年度</a><span class="dots"></span><span class="anchor">p.8–10</span></li>
+        <li><a href="#y28">平成28年度</a><span class="dots"></span><span class="anchor">p.11–13</span></li>
+        <li><a href="#y29">平成29年度</a><span class="dots"></span><span class="anchor">p.14–16</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 平成25年度 -->
+  <section class="page" id="y25">
+    <div class="problem-number">【平成25年度】</div>
+    <h2>【1】</h2>
+    <div class="problem-body">
+      <p>正の実数 \(a\) が \(a &gt; 0\) を満たすとき，直線</p>
+      <p class="math-display">\[
+        y = 2ax + a^{2}
+      \]</p>
+      <p>が通過する領域を図示せよ。</p>
+    </div>
+    <div class="answer">
+      <p>点 \((x, y)\) が上式を満たす \(a&gt;0\) をもつ条件は，二次方程式 \(a^{2} + 2ax - y = 0\) が正の解をもつこと。判別式より \(y \ge -x^{2}\)。さらに正の解をもつには \(-x + \sqrt{x^{2}+y} &gt; 0\)。これは \(x &lt; 0\) なら常に成り立ち，\(x \ge 0\) では \(y &gt; 0\) が必要。</p>
+      <p>したがって領域は <strong>左半平面 \(x&lt;0\) で放物線 \(y=-x^{2}\) の上側（境界含む）と，右半平面 \(x \ge 0\) で \(y&gt;0\) の部分</strong> の和。</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【2】</div>
+    <div class="problem-body">
+      <p>「\(n\) 個の整数 \(1, 2, \dots , n\) のうちの 1 個を無作為に選ぶ」という試行を 4 回繰り返す。各回に選んだ数を \(a_1, a_2, a_3, a_4\) としたとき，</p>
+      <p class="math-display">\[
+        a_1 + a_2 - a_3 - a_4 &gt; 0
+      \]</p>
+      <p>となる確率を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>和 \(A=a_1+a_2\)，\(B=a_3+a_4\) は同分布なので \(P(A&gt;B)=P(A&lt;B)=\dfrac{1-P(A=B)}{2}\)。</p>
+      <p>\(A\) の分布は三角形分布で \(P(A=k)=\frac{k-1}{n^{2}}\,(2\le k\le n+1)\)，\(P(A=k)=\frac{2n+1-k}{n^{2}}\,(n+2\le k\le 2n)\)。よって</p>
+      <p class="math-display">\[
+        P(A=B)=\sum_k P(A=k)^2
+        =\frac{2n^2+1}{3n^3}.
+      \]</p>
+      <p>よって</p>
+      <p class="math-display">\[
+        P(A&gt;B)=\frac{1-P(A=B)}{2}
+        =\frac{3n^{3}-2n^{2}-1}{6\,n^{3}}.
+      \]</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【3】</div>
+    <div class="problem-body">
+      <p>3次関数 \(y = x^{3} - x\) のグラフを \(C\)，直線 \(y = x\) を \(l\) とする。</p>
+      <p>(1) \(C\) と \(l\) との交点で原点 \(O(0, 0)\) ではないものを \(P_0\) とする。線分 \(OP_0\) の長さを \(t_0\) として求めよ。</p>
+      <p>(2) \(0 &lt; t &lt; t_0\) とする。\(P\!\left(\dfrac{t}{\sqrt{2}},\, \dfrac{t}{\sqrt{2}}\right)\) を通り，\(l\) に垂直な直線と \(C\) との交点を \(Q\) とする。線分 \(OP_0\) の長さを \(t\) で表せ。</p>
+      <p>(3) \(C\) と \(l\) とで囲まれた部分を \(l\) の周りに一回転させてできる回転体の体積を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>(1) 交点は \(x(x^{2}-2)=0\) より \(x=\pm\sqrt{2}\)。原点以外で正の \(x\) を取ると \(P_0(\sqrt{2},\sqrt{2})\)，よって \(t_0=\sqrt{(\sqrt{2})^{2}+(\sqrt{2})^{2}}=2\)。</p>
+      <p>(2) (1) で得た \(P_0(\sqrt{2},\sqrt{2})\) は \(t\) に依らないので，線分 \(OP_0\) の長さは常に \(t_0=2\)。よって求める長さは \(t\) によらず</p>
+      <p class="math-display">\[
+        OP_0 = 2.
+      \]</p>
+      <p>(3) \(l\) まわりの回転体の体積は，座標を45度回転させて軸を \(u=0\) にとると \(\displaystyle V=\pi\int u^{2}\,dv\) で計算できる。結果</p>
+      <p class="math-display">\[
+        V=\frac{128}{105}\,\pi.
+      \]</p>
+    </div>
+  </section>
+
+  <!-- 平成26年度 -->
+  <section class="page" id="y26">
+    <div class="problem-number">【平成26年度】</div>
+    <h2>【1】</h2>
+    <div class="problem-body">
+      <p>次により定義される数列 \(\{a_n\}\) の一般項を，(1)，(2)，(3) それぞれについて求めよ。</p>
+      <p>(1) \(a_1 = 1,\ a_{n+1} = 2a_n \quad (n = 1, 2, 3, \dots)\)。</p>
+      <p>(2) \(a_1 = 1,\ a_{n+1} = 2a_n + n - 1 \quad (n = 1, 2, 3, \dots)\)。</p>
+      <p>(3) \(a_1 = 0,\ a_{n+1} = a_1 + \cdots + a_n + n + c \quad (n = 1, 2, 3, \dots)\)。ただし \(c\) は定数とする。</p>
+    </div>
+    <div class="answer">
+      <p>(1) 等比数列より \(a_n = 2^{\,n-1}\)。</p>
+      <p>(2) 非同次線形漸化式。特解を \(-n\) とすると一般解 \(a_n = A\cdot 2^{\,n-1} - n\)。初期条件より \(A=2\)，よって \(a_n = 2^{\,n} - n\)。</p>
+      <p>(3) \(S_n=\sum_{k=1}^n a_k\) とすると \(S_{n+1}=2S_n+n+c\)，\(S_1=0\)。解くと \(S_n = (c+2)2^{\,n-1} - n - c - 1\)。したがって \(n\ge2\) で</p>
+      <p class="math-display">\[
+        a_n = S_n - S_{n-1} = (c+2)\,2^{\,n-2} - 1.
+      \]</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【2】</div>
+    <div class="problem-body">
+      <p>\(-3 &lt; x &lt; 2\) の範囲で不等式</p>
+      <p class="math-display">\[
+        0 &lt; x^{2} - 4ax - 4a + 8 &lt; 30
+      \]</p>
+      <p>がつねに成り立つような定数 \(a\) の範囲を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>放物線 \(f(x)=x^{2}-4ax-4a+8\) の頂点は \(x=2a\)。</p>
+      <p>- 頂点が区間内 \([-3,2]\) に入る \(a\in[-\tfrac{3}{2},1]\) では最小値は頂点 \(f(2a)=-4(a+2)(a-1)&gt;0\) （\(a&lt;1\) のため正）。</p>
+      <p>- 頂点が左側 \(a&lt;-\tfrac{3}{2}\) では最小は左端近傍 \(x\to-3^{+}\) で \(f(-3)=17+8a\)，これが正になるには \(a&gt;-\tfrac{17}{8}\) だが，上界判定 \(f(2)&lt;30\) から \(a&gt;-\tfrac{3}{2}\) が必要となり不許可。</p>
+      <p>- 頂点が右側 \(a&gt;1\) では \(x\to2^{-}\) で \(f(2)=12-12a&lt;0\) となり不適。</p>
+      <p>上界 \(f(-3)&lt;30\)、\(f(2)&lt;30\) も合わせると許される範囲は</p>
+      <p class="math-display">\[
+        -\tfrac{3}{2} \;\le\; a \;\le\; 1.
+      \]</p>
+      <p>（区間端 \(x=-3,2\) は除外だが、極限で評価した値が 0 や 30 となる端点の \(a\) も許容される。）</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【3】</div>
+    <div class="problem-body">
+      <p>\(xy\) 平面内で 3 次関数 \(y = x(x - 1)^{2}\) が表す曲線を \(C\)，一次関数 \(y = ax\) が表す直線を \(L_a\) とする。曲線 \(C\) と直線 \(L_a\) が相異なる 3 点で交わるとき，それらの交点を \(x\) 座標の絶対値が小さい順に \(O, P, Q\) とする。さらに線分 \(OP\) と曲線 \(C\) が囲む図形を \(S_1\)，線分 \(PQ\) と曲線 \(C\) が囲む図形を \(S_2\) とする。このとき次の問いに答えよ。</p>
+      <p>(1) 点 \(P\) の \(x\) 座標の値が負となるような \(a\) の範囲を求めよ。</p>
+      <p>(2) \(S_2\) の面積を \(a\) で表せ。ただし，\(a\) の式として整理した形で解答を述べること。</p>
+      <p>(3) \(S_1\) と \(S_2\) の面積が等しくなるような \(a\) の値を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>(1) 交点は \(x=0,\, x=1\pm\sqrt{a}\)。\(P\) が負になるのは \(1-\sqrt{a}&lt;0\)，すなわち \(a&gt;1\)。</p>
+      <p>(2) \(P=(1-\sqrt{a},\,a(1-\sqrt{a}))\)、\(Q=(1+\sqrt{a},\,a(1+\sqrt{a}))\)。\(0&lt;a&lt;1\) なら区間 \([P,Q]\) は正の側にあり，直線が終始上側なので</p>
+      <p class="math-display">\[
+        S_2=\int_{1-\sqrt{a}}^{1+\sqrt{a}}\!\bigl(a x - x(x-1)^2\bigr)\,dx
+        =\frac{4}{3}\,a^{3/2}.
+      \]</p>
+      <p>\(a&gt;1\) では区間が原点をまたぎ，\([P,0]\) で曲線が上，\([0,Q]\) で直線が上になる。符号を分けて積分すると</p>
+      <p class="math-display">\[
+        S_2
+        =\int_{P}^{0}\!\bigl(x(x-1)^2-ax\bigr)\,dx
+        +\int_{0}^{Q}\!\bigl(ax-x(x-1)^2\bigr)\,dx
+        =\frac{1}{2}a^{2}+a-\frac{1}{6}.
+      \]</p>
+      <p>(3) \(0&lt;a&lt;1\) のとき \(S_1=\displaystyle\int_{0}^{1-\sqrt{a}}\!\bigl(x(x-1)^2-ax\bigr)\,dx\) となり</p>
+      <p class="math-display">\[
+        S_1=-\frac{1}{4}a^{2}+\frac{2}{3}a^{3/2}-\frac{1}{2}a+\frac{1}{12}.
+      \]</p>
+      <p>\(S_1=S_2\) を \(t=\sqrt{a}\) として整理すると \(3t^{4}+8t^{3}+6t^{2}-1=0\) を得る。正の根は \(t=\tfrac{1}{3}\) だけで，\(a=\tfrac{1}{9}\) が条件を満たす。</p>
+      <p>\(a&gt;1\) では \(S_1=\tfrac{1}{4}a^{2}-\tfrac{2}{3}a^{3/2}+\tfrac{1}{2}a-\tfrac{1}{12}\)。同様に \(S_1=S_2\) を解いても \(t&gt;1\) の解はなく，この範囲に解は存在しない。したがって面積が等しくなるのは \(a=\tfrac{1}{9}\) のみである。</p>
+    </div>
+  </section>
+
+  <!-- 平成27年度 -->
+  <section class="page" id="y27">
+    <div class="problem-number">【平成27年度】</div>
+    <h2>【1】</h2>
+    <div class="problem-body">
+      <p>\(a, b\) を実数とする。\(t\) に関する 2 次方程式</p>
+      <p class="math-display">\[
+        t^{2} - a t + b = 0
+      \]</p>
+      <p>が \(1 &lt; t &lt; 2\) なる解をもつとき，点 \((a, b)\) が \(xy\) 平面内で動き得る範囲を図示せよ。</p>
+    </div>
+    <div class="answer">
+      <p>少なくとも 1 つの根が \((1,2)\) に入る条件は，下の 3 領域の和集合で表せる（いずれも \(t=1,2\) は含まない）。</p>
+      <p class="math-display">\[
+        \begin{aligned}
+          &\text{(i)}\quad 2a-4 &< b &< a-1 \\[2pt]
+          &\text{(ii)}\quad a-1 &< b &< 2a-4 \\[2pt]
+          &\text{(iii)}\quad 2 &< a &< 4,\quad b \le \tfrac{a^{2}}{4},\quad b > a-1 \ \text{または}\ b > 2a-4
+        \end{aligned}
+      \]</p>
+      <p>(i)・(ii) は端点で符号が変わるケース（根の一方だけが \((1,2)\) に入る）。(iii) は頂点が区間内で下に突き抜けるケース（両根とも \((1,2)\)）。直線境界はすべて不等号「&lt;」「&gt;」で開、放物線境界のみ「\(\le\)」。</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【2】</div>
+    <div class="problem-body">
+      <p>自然数 \(n\) のうちで \(\sqrt{n}\) の小数第 1 位が 3 であるものを考える。</p>
+      <p>(1) そのような \(n\) のうち最小のものを求めよ。</p>
+      <p>(2) そのような \(n\) のうち \(10000\) 以下で最大のものを求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>\(\lfloor\sqrt{n}\rfloor=m\) とすると \((m+0.3)^2 \le n &lt; (m+0.4)^2\)。</p>
+      <p>(1) \(m=3\) で初めて整数が入り，\(10.89\le n&lt;11.56\) より \(n=11\)。</p>
+      <p>(2) \(\sqrt{10000}=100\) までで最大となるのは \(m=99\) の区間 \(9860.49\le n&lt;9880.36\) の上端，すなわち \(n=9880\)。</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【3】</div>
+    <div class="problem-body">
+      <p>曲線 \(y = \dfrac{\log x}{x}\ (x &gt; 0)\) を \(C\) で表す。原点を通り \(C\) に接する直線を \(\ell\) とするとき，\(C\)，\(\ell\)，および \(x\) 軸で囲まれた部分の面積を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>接点 \(x=x_0\) で接線の傾き \(k\) は \(k=\dfrac{\log x_0}{x_0^{2}}=\dfrac{1-\log x_0}{x_0^{2}}\) より \(\log x_0=\tfrac{1}{2}\)，\(x_0=\sqrt{e}\)，\(k=\tfrac{1}{2e}\)。</p>
+      <p>領域は \(x=0\)～1 で直線と \(x\) 軸，\(x=1\)～\(\sqrt{e}\) で直線と曲線に挟まれる。よって</p>
+      <p class="math-display">\[
+        S=\int_{0}^{1}\!\frac{x}{2e}\,dx+\int_{1}^{\sqrt{e}}\!\left(\frac{x}{2e}-\frac{\log x}{x}\right)dx
+        =\frac{1}{4e}+\frac{e-1}{4e}-\frac{(\log x)^2}{2}\Big|_{1}^{\sqrt{e}}
+        =\frac{1}{8}.
+      \]</p>
+    </div>
+  </section>
+
+  <!-- 平成28年度 -->
+  <section class="page" id="y28">
+    <div class="problem-number">【平成28年度】</div>
+    <h2>【1】</h2>
+    <div class="problem-body">
+      <p>\(0 &lt; a &lt; 1\) とする。\(xy\) 平面において，点 \(P(1, 0)\) を通る傾き \(-a\) の直線 \(\ell_1\) と \(y\) 軸との交点を \(Q\) とする。また，点 \(Q\) を通る傾き \(a\) の直線 \(\ell_2\) と放物線 \(C : y = 1 - x^{2}\) との 2 つの交点のうち \(x\) 座標が正の方を \(R\) とする。このとき，次の問いに答えよ。</p>
+      <p>(1) 3 点 \(P, Q, R\) を含み，曲線 \(C\) と直線 \(\ell_1, \ell_2\) で囲まれた図形の面積 \(S(a)\) を \(a\) の式で表せ。</p>
+      <p>(2) 面積 \(S(a)\) を最大にする \(a\) の値と \(S(a)\) の最大値を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>\(\ell_1: y=-ax+a\)、\(\ell_2: y=ax+a\)、\(R=(1-a,\,2a-a^{2})\)。領域は \(x\in[0,1-a]\) で直線どうし，\(x\in[1-a,1]\) で放物線上側・\(\ell_1\) 下側となる。</p>
+      <p class="math-display">\[
+        S(a)=\int_{0}^{1-a}\!(\ell_2-\ell_1)\,dx+\int_{1-a}^{1}\!\bigl((1-x^{2})-(-ax+a)\bigr)\,dx
+        =a-a^{2}+\frac{1}{6}a^{3}.
+      \]</p>
+      <p>導関数 \(S'(a)=1-2a+\tfrac{1}{2}a^{2}\) の根は \(a=2\pm\sqrt{2}\)。範囲 \(0&lt;a&lt;1\) で最大となるのは \(a=2-\sqrt{2}\)，そのとき</p>
+      <p class="math-display">\[
+        S_{\max}=\frac{2\sqrt{2}-2}{3}.
+      \]</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【2】</div>
+    <div class="problem-body">
+      <p>整数 \(1, 2, \dots , 20\) から 3 個の整数を無作為に選ぶとき，次の問いに答えよ。</p>
+      <p>(1) 選んだ 3 個の整数の最小値が 6 以上である確率を既約分数の形で求めよ。</p>
+      <p>(2) 選んだ 3 個の整数の偶奇が一致しない確率を既約分数の形で求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>(1) \(6\) 以上は 15 個なので \(\dfrac{\binom{15}{3}}{\binom{20}{3}}=\dfrac{91}{228}\)。</p>
+      <p>(2) 偶奇がそろうのは偶のみ・奇のみの \(2\times\binom{10}{3}=240\)。したがって</p>
+      <p class="math-display">\[
+        P(\text{不一致})=1-\frac{240}{\binom{20}{3}}
+        =\frac{900}{1140}
+        =\frac{15}{19}.
+      \]</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【3】</div>
+    <div class="problem-body">
+      <p>\(xyz\) 空間内で，\(xz\) 平面上の放物線 \(z = x^{2}\) を \(z\) 軸のまわりに一回転して得られる曲面を \(P\) とする。また，方程式 \(2x - z = 0\) で定まる \(xyz\) 空間内の平面を \(Q\) とする。曲面 \(P\) と平面 \(Q\) により囲まれる \(xyz\) 空間内の図形を \(R\) とするとき，次の問いに答えよ。</p>
+      <p>(1) 図形 \(R\) と平面 \(z = a\) が交わるような \(a\) の範囲 \(a_1 \le a \le a_2\) を求め，\(a_1 &lt; a &lt; a_2\) であるとき，平面 \(z = a\) による \(R\) の断面 \(S_a\) を図示せよ。</p>
+      <p>(2) 図形 \(R\) と平面 \(y = b\) が交わるような \(b\) の範囲 \(b_1 \le b \le b_2\) を求め，\(b_1 &lt; b &lt; b_2\) であるとき，平面 \(y = b\) による \(R\) の断面 \(T_b\) を図示せよ。</p>
+      <p>(3) \(b_1 &lt; b &lt; b_2\) であるとき，断面 \(T_b\) の面積を \(b\) の式で表せ。</p>
+    </div>
+    <div class="answer">
+      <p>(1) 交線は \(r=2\cos\theta\)（\(r^{2}=z,\ z=2x=r\cdot2\cos\theta\)）。最大高さは \(z=4\) なので \(0\le a\le4\)。断面 \(S_a\) は半径 \(\sqrt{a}\) の円盤 \(x^{2}+y^{2}\le a\) を直線 \(x=\tfrac{a}{2}\) で切った弓形（\(x\ge\tfrac{a}{2}\) 側）。</p>
+      <p>(2) 平面 \(y=b\) と交わるのは \(|b|\le1\)（\(x^{2}-2x+b^{2}=0\) の判別式より）。断面 \(T_b\) は \(x=1\pm\sqrt{1-b^{2}}\) で交わる直線 \(z=2x\) と放物線 \(z=x^{2}+b^{2}\) に挟まれたレンズ状領域。</p>
+      <p>(3) (2) の区間で</p>
+      <p class="math-display">\[
+        \text{Area}(T_b)=\int_{1-\sqrt{1-b^{2}}}^{1+\sqrt{1-b^{2}}}\!\bigl(2x-(x^{2}+b^{2})\bigr)\,dx
+        =\frac{4}{3}\,\bigl(1-b^{2}\bigr)^{3/2}.
+      \]</p>
+    </div>
+  </section>
+
+  <!-- 平成29年度 -->
+  <section class="page" id="y29">
+    <div class="problem-number">【平成29年度】</div>
+    <h2>【1】</h2>
+    <div class="problem-body">
+      <p>\(xy\) 平面上の 3 直線</p>
+      <p class="math-display">\[
+        x + 3 = 0,\qquad 3x + 4y - 43 = 0,\qquad 3x - 4y - 19 = 0
+      \]</p>
+      <p>で囲まれる三角形の内接円の中心と半径を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>頂点 \(A(-3,13)\)、\(B(-3,-7)\)、\(C(\tfrac{31}{3},3)\)。辺の長さは \(|BC|=|AC|=\tfrac{50}{3}\)、\(|AB|=20\)。内心は重み付き平均 \(I=\dfrac{|BC|A+|AC|B+|AB|C}{|BC|+|AC|+|AB|}=(2,3)\)。半径は任意の辺への距離で 5（例：\(|2+3|=5\)、\(|3\cdot2+4\cdot3-43|/5=5\)）。</p>
+      <p>別法（垂直二等分線）：辺 \(AB\) の垂直二等分線は \(y=3\)。辺 \(AC\) の中点 \(M=\bigl(\tfrac{10}{3},8\bigr)\)、傾きは \(\tfrac{4-8}{\tfrac{31}{3}-(-3)}=-\tfrac{3}{10}\)。よって垂直二等分線は傾き \(\tfrac{10}{3}\) で \(y-8=\tfrac{10}{3}(x-\tfrac{10}{3})\)。これと \(y=3\) の交点が \((2,3)\) となり、同じ中心・半径 5 を得る。</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【2】</div>
+    <div class="problem-body">
+      <p>\(a_1 = 1,\ a_2 = 10,\ a_{n+2} = \sqrt{\dfrac{(a_{n+1})^{3}}{a_n}}\ (n \ge 1)\) で定まる数列 \(\{a_n\}\) の一般項を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>\(\log a_n\) は線形漸化式 \(b_{n+2}=1.5\,b_{n+1}-0.5\,b_n\) を満たす。解くと</p>
+      <p class="math-display">\[
+        a_n = 10^{\,2-2^{\,2-n}}\qquad(n\ge1).
+      \]</p>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="problem-number">【3】</div>
+    <div class="problem-body">
+      <p>曲線 \(y = x^{3} + 3x^{2}\) を \(C\) とする。</p>
+      <p>(1) 点 \((1, a)\) を通る \(C\) の相異なる接線の数が 2 本であるとき，実数 \(a\) の値を求めよ。</p>
+      <p>(2) (1) で求めた \(a\) の値のうち最も小さいものに対して，2 本の接線と \(C\) で囲まれた部分の面積を求めよ。</p>
+    </div>
+    <div class="answer">
+      <p>(1) 接点 \(t\) の接線が \((1,a)\) を通る条件は \(-2t^{3}+6t-a=0\)。極値 \(a=\pm4\) で三重根が共役し，接線が 2 本（重根1本＋単根1本）となる。よって \(a=4\) または \(-4\)。</p>
+      <p>(2) 最小の \(a=-4\)。対応する接点は \(t=-1,\,2\) で接線は \(y=-3x-1\)、\(y=24x-28\)。囲まれた面積は</p>
+      <p class="math-display">\[
+        \int_{-1}^{1}\!\bigl((x^{3}+3x^{2})-(-3x-1)\bigr)\,dx
+        +\int_{1}^{2}\!\bigl((x^{3}+3x^{2})-(24x-28)\bigr)\,dx
+        =\frac{27}{4}.
+      \]</p>
+    </div>
+  </section>
+</body>
+</html>
